@@ -241,15 +241,21 @@ async function seedRankings() {
     const data = await parseCSV(filePath);
     
     const rankings = data.map((row, index) => {
-      // For serie 1, position is in the first column (empty key), for serie 2 it's in 'Équipe' initially
       let position = index + 1; // Default fallback
       
-      // Try to extract position from the first column or from the team name
-      const firstCol = row[''] || row['Équipe'] || '';
-      if (typeof firstCol === 'string') {
-        const posMatch = firstCol.match(/(\d+)/);
+      // Try to extract position from the first column (which contains French ordinals like "1er", "2nd", "3ème", "99ème")
+      const firstCol = row[''] || '';
+      if (typeof firstCol === 'string' && firstCol.trim()) {
+        // Match French ordinal numbers: "1er", "2nd", "3ème", "4ème", "10ème", "99ème", etc.
+        const posMatch = firstCol.match(/^(\d+)(?:er|nd|ème)$/);
         if (posMatch) {
           position = parseInt(posMatch[1]);
+        } else {
+          // Fallback: try to extract any number from the beginning
+          const numMatch = firstCol.match(/^(\d+)/);
+          if (numMatch) {
+            position = parseInt(numMatch[1]);
+          }
         }
       }
       
