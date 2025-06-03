@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
+import Link from 'next/link';
 import { apiService, Match } from '@/lib/api';
 
 export default function Matches() {
@@ -88,7 +89,12 @@ export default function Matches() {
               {/* Team 1 */}
               <div className="flex items-center justify-between">
                 <div className="flex-1">
-                  <div className="font-medium text-gray-900">{match.team1.name}</div>
+                  <Link 
+                    href={`/teams/${encodeURIComponent(match.team1.name)}`}
+                    className="font-medium text-gray-900 hover:text-blue-600 transition-colors duration-200 cursor-pointer"
+                  >
+                    {match.team1.name}
+                  </Link>
                   <div className="text-sm text-gray-500">{match.team1.stand}</div>
                 </div>
                 <div className={`text-2xl font-bold px-3 py-1 rounded ${
@@ -108,7 +114,12 @@ export default function Matches() {
               {/* Team 2 */}
               <div className="flex items-center justify-between">
                 <div className="flex-1">
-                  <div className="font-medium text-gray-900">{match.team2.name}</div>
+                  <Link 
+                    href={`/teams/${encodeURIComponent(match.team2.name)}`}
+                    className="font-medium text-gray-900 hover:text-blue-600 transition-colors duration-200 cursor-pointer"
+                  >
+                    {match.team2.name}
+                  </Link>
                   <div className="text-sm text-gray-500">{match.team2.stand}</div>
                 </div>
                 <div className={`text-2xl font-bold px-3 py-1 rounded ${
@@ -127,9 +138,23 @@ export default function Matches() {
             <div className="mt-4 pt-4 border-t border-gray-200">
               <div className="text-center">
                 {match.team1.score > match.team2.score ? (
-                  <span className="text-green-600 font-medium">🏆 {match.team1.name} wins!</span>
+                  <span className="text-green-600 font-medium">
+                    🏆 <Link 
+                      href={`/teams/${encodeURIComponent(match.team1.name)}`}
+                      className="hover:underline"
+                    >
+                      {match.team1.name}
+                    </Link> wins!
+                  </span>
                 ) : match.team2.score > match.team1.score ? (
-                  <span className="text-green-600 font-medium">🏆 {match.team2.name} wins!</span>
+                  <span className="text-green-600 font-medium">
+                    🏆 <Link 
+                      href={`/teams/${encodeURIComponent(match.team2.name)}`}
+                      className="hover:underline"
+                    >
+                      {match.team2.name}
+                    </Link> wins!
+                  </span>
                 ) : (
                   <span className="text-yellow-600 font-medium">🤝 Draw</span>
                 )}

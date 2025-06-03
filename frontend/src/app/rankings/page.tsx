@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
+import Link from 'next/link';
 import { apiService, Ranking } from '@/lib/api';
 
 export default function Rankings() {
@@ -123,7 +124,12 @@ export default function Rankings() {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
                       <div>
-                        <div className="text-sm font-medium text-gray-900">{ranking.team.name}</div>
+                        <Link 
+                          href={`/teams/${encodeURIComponent(ranking.team.name)}`}
+                          className="text-sm font-medium text-gray-900 hover:text-blue-600 transition-colors duration-200 cursor-pointer"
+                        >
+                          {ranking.team.name}
+                        </Link>
                         <div className="text-sm text-gray-500">{ranking.team.stand}</div>
                       </div>
                     </div>

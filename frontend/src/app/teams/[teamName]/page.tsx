@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { apiService, Match, Team } from '@/lib/api';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
@@ -177,7 +178,12 @@ export default function TeamDetail() {
                           Serie {match.serie} - Match #{match.matchNumber}
                         </div>
                         <div className="text-sm text-gray-500">
-                          vs {opponent.name} ({opponent.stand})
+                          vs <Link 
+                            href={`/teams/${encodeURIComponent(opponent.name)}`}
+                            className="hover:text-blue-600 transition-colors duration-200 cursor-pointer"
+                          >
+                            {opponent.name}
+                          </Link> ({opponent.stand})
                         </div>
                       </div>
                     </div>
