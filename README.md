@@ -74,7 +74,7 @@ eurobot_dashboard/
 3. **Access the application**
    - Frontend: http://localhost:3000
    - Backend API: http://localhost:5000/api
-   - MongoDB: localhost:27017
+   - MongoDB: localhost:27018 (external access)
 
 ### First Run
 
@@ -82,6 +82,26 @@ On the first startup, the backend will automatically:
 - Connect to MongoDB
 - Check if the database is empty
 - Seed the database with data from CSV files in the `data/` directory
+
+### Database Access with MongoDB Compass
+
+To connect to the MongoDB database using MongoDB Compass:
+
+**Connection String:**
+```
+mongodb://admin:password123@127.0.0.1:27018/eurobot?authSource=admin&directConnection=true
+```
+
+**Or using individual fields:**
+- **Hostname:** `127.0.0.1`
+- **Port:** `27018`
+- **Authentication:** Username/Password
+- **Username:** `admin`
+- **Password:** `password123`
+- **Authentication Database:** `admin`
+- **Database Name:** `eurobot`
+
+**Note:** The database is accessible on port 27018 from your host machine, while the internal Docker network uses port 27017.
 
 ## 📊 Features
 
@@ -202,7 +222,7 @@ The project includes automatic data migration from CSV files:
 
 1. **MongoDB** (`eurobot_mongodb`)
    - Image: mongo:7.0
-   - Port: 27017
+   - Port: 27018 (external) / 27017 (internal)
    - Credentials: admin/password123
    - Persistent volume for data
 
