@@ -9,7 +9,7 @@ const Ranking = require('../models/Ranking');
 const Serie = require('../models/Serie');
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://admin:password123@localhost:27018/eurobot?authSource=admin';
-const DATA_DIR = path.join(__dirname, '../data');
+const DATA_DIR = path.join(__dirname, '../../data');
 
 /**
  * Discover all CSV files in the data directory and extract series information
@@ -88,7 +88,7 @@ function parseCSV(filePath) {
 
 async function seedTeams() {
   console.log('Seeding teams...');
-  const teams = new Set();
+  const teamsMap = new Map(); // Use Map to track teams by name
   const seriesInfo = discoverCSVFiles();
   
   // Extract teams from all ranking files
@@ -98,22 +98,46 @@ async function seedTeams() {
     
     data.forEach(row => {
       if (row['Équipe'] && row['Stand']) {
+        const teamName = (row['Équipe'] || '').trim();
+        const stand = (row['Stand'] || '').trim();
         const origin = (row['Origine'] || '').trim();
-        teams.add(JSON.stringify({
-          name: (row['Équipe'] || '').trim(),
-          stand: (row['Stand'] || '').trim(),
-          origin: origin || 'Unknown'
-        }));
+        
+        if (teamName && stand) {
+          // Check if team already exists
+          if (teamsMap.has(teamName)) {
+            const existingTeam = teamsMap.get(teamName);
+            
+            // Update with more complete information
+            // Prefer non-empty origin over empty/Unknown
+            if (origin && origin !== 'Unknown' && 
+                (!existingTeam.origin || existingTeam.origin === 'Unknown' || existingTeam.origin === '')) {
+              existingTeam.origin = origin;
+            }
+            
+            // Keep the same stand (should be consistent for same team)
+            // But log if there's a discrepancy
+            if (existingTeam.stand !== stand) {
+              console.warn(`Stand mismatch for team "${teamName}": existing "${existingTeam.stand}" vs new "${stand}"`);
+            }
+          } else {
+            // Add new team
+            teamsMap.set(teamName, {
+              name: teamName,
+              stand: stand,
+              origin: origin || 'Unknown'
+            });
+          }
+        }
       }
     });
   }
   
-  // Convert back to objects and save
-  const teamObjects = Array.from(teams).map(teamStr => JSON.parse(teamStr));
+  // Convert to array
+  const teamObjects = Array.from(teamsMap.values());
   
   await Team.deleteMany({});
   await Team.insertMany(teamObjects);
-  console.log(`Seeded ${teamObjects.length} teams`);
+  console.log(`Seeded ${teamObjects.length} unique teams`);
 }
 
 function parseMatchCSV(filePath) {
