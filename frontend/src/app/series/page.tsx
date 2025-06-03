@@ -155,50 +155,6 @@ const SeriesPage = () => {
         </div>
       )}
 
-      {/* Series Details Cards */}
-      {series.length > 0 && (
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {series.map((serie) => (
-            <div key={serie._id} className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">Serie {serie.serieNumber}</h3>
-                {getStatusBadge(serie.status)}
-              </div>
-              
-              <h4 className="font-medium text-gray-800 mb-2">{serie.name}</h4>
-              <p className="text-gray-600 text-sm mb-4 line-clamp-3">{serie.description}</p>
-              
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-500">Duration:</span>
-                  <span className="text-gray-900">
-                    {formatDate(serie.startDate)} - {formatDate(serie.endDate)}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-500">Location:</span>
-                  <span className="text-gray-900">{serie.location}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-500">Teams:</span>
-                  <span className="text-gray-900">{serie.totalTeams}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-500">Matches:</span>
-                  <span className="text-gray-900">{serie.totalMatches}</span>
-                </div>
-              </div>
-              
-              {serie.rules && (
-                <div className="mt-4 pt-4 border-t border-gray-200">
-                  <h5 className="text-sm font-medium text-gray-700 mb-1">Rules:</h5>
-                  <p className="text-xs text-gray-600 line-clamp-2">{serie.rules}</p>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 };

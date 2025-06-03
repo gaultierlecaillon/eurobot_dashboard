@@ -88,7 +88,7 @@ export default function Dashboard() {
             </div>
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Series</p>
-              <p className="text-2xl font-semibold text-gray-900">3</p>
+              <p className="text-2xl font-semibold text-gray-900">{stats?.totalSeries || 0}</p>
             </div>
           </div>
         </div>
@@ -152,30 +152,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Quick Actions */}
-      <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
-        <div className="flex flex-wrap gap-4">
-          <button 
-            onClick={fetchStats}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
-          >
-            Refresh Data
-          </button>
-          <button 
-            onClick={() => window.location.href = '/rankings'}
-            className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-md transition-colors duration-200"
-          >
-            View Rankings
-          </button>
-          <button 
-            onClick={() => window.location.href = '/matches'}
-            className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-md transition-colors duration-200"
-          >
-            View Matches
-          </button>
-        </div>
-      </div>
     </div>
   );
 }

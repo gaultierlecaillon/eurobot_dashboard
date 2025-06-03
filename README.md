@@ -66,8 +66,17 @@ eurobot_dashboard/
    cd eurobot_dashboard
    ```
 
-2. **Start the application**
+2. **Choose your environment**
+
+   **For Development (Recommended for local development):**
    ```bash
+   # Fast startup with hot reloading, no production build
+   docker-compose -f docker-compose.dev.yml up --build
+   ```
+
+   **For Production:**
+   ```bash
+   # Full production build (takes longer but optimized)
    docker-compose up --build
    ```
 
@@ -75,6 +84,22 @@ eurobot_dashboard/
    - Frontend: http://localhost:3000
    - Backend API: http://localhost:5000/api
    - MongoDB: localhost:27018 (external access)
+
+### Development vs Production
+
+**Development Setup (`docker-compose.dev.yml`):**
+- ✅ Fast startup (no production build)
+- ✅ Hot reloading for code changes
+- ✅ Volume mounting for instant updates
+- ✅ Development environment variables
+- ✅ Nodemon for backend auto-restart
+
+**Production Setup (`docker-compose.yml`):**
+- 🏗️ Optimized production build
+- 🏗️ Minified and optimized assets
+- 🏗️ Standalone Next.js output
+- 🏗️ Production environment variables
+- ⚠️ Longer build times (not ideal for development)
 
 ### First Run
 
@@ -245,21 +270,59 @@ The project includes automatic data migration from CSV files:
 
 ## 🛠️ Development
 
-### Local Development
+### Docker Development (Recommended)
 
-1. **Backend Development**
+**Start development environment:**
+```bash
+# Start all services with hot reloading
+docker-compose -f docker-compose.dev.yml up --build
+
+# Or run in background
+docker-compose -f docker-compose.dev.yml up -d --build
+
+# Stop development environment
+docker-compose -f docker-compose.dev.yml down
+```
+
+**Development features:**
+- Hot reloading for both frontend and backend
+- Volume mounting for instant code updates
+- No production build delays
+- Development environment variables
+
+### Local Development (Alternative)
+
+If you prefer to run services locally without Docker:
+
+1. **Start MongoDB only**
+   ```bash
+   docker-compose up mongodb
+   ```
+
+2. **Backend Development**
    ```bash
    cd backend
    npm install
    npm run dev
    ```
 
-2. **Frontend Development**
+3. **Frontend Development**
    ```bash
    cd frontend
    npm install
    npm run dev
    ```
+
+### Docker Files Structure
+
+The project includes separate Docker configurations:
+
+- `docker-compose.yml` - Production setup
+- `docker-compose.dev.yml` - Development setup
+- `frontend/Dockerfile` - Production frontend build
+- `frontend/Dockerfile.dev` - Development frontend (hot reload)
+- `backend/Dockerfile` - Production backend build
+- `backend/Dockerfile.dev` - Development backend (nodemon)
 
 ### Adding New Data
 

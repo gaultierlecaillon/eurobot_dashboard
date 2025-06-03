@@ -228,6 +228,7 @@ app.get('/api/stats', async (req, res) => {
     const totalTeams = await Team.countDocuments();
     const totalMatches = await Match.countDocuments();
     const totalRankings = await Ranking.countDocuments();
+    const totalSeries = await Serie.countDocuments();
     
     const matchesBySerie = await Match.aggregate([
       { $group: { _id: '$serie', count: { $sum: 1 } } },
@@ -242,6 +243,7 @@ app.get('/api/stats', async (req, res) => {
       totalTeams,
       totalMatches,
       totalRankings,
+      totalSeries,
       matchesBySerie,
       topTeams
     });

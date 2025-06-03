@@ -9,7 +9,7 @@ const Ranking = require('../models/Ranking');
 const Serie = require('../models/Serie');
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://admin:password123@localhost:27018/eurobot?authSource=admin';
-const DATA_DIR = path.join(__dirname, '../../data');
+const DATA_DIR = path.join(__dirname, '../data');
 
 /**
  * Discover all CSV files in the data directory and extract series information
@@ -295,10 +295,20 @@ async function seed() {
     await seedRankings();
     
     console.log('Database seeding completed successfully!');
-    process.exit(0);
+    
+    // Only exit if this script is run directly, not when called from server.js
+    if (require.main === module) {
+      process.exit(0);
+    }
   } catch (error) {
     console.error('Seeding error:', error);
-    process.exit(1);
+    
+    // Only exit if this script is run directly, not when called from server.js
+    if (require.main === module) {
+      process.exit(1);
+    } else {
+      throw error; // Re-throw the error for the calling module to handle
+    }
   }
 }
 
