@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { apiService, Match, Team } from '@/lib/api';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 export default function TeamDetail() {
   const params = useParams();
@@ -200,7 +201,7 @@ export default function TeamDetail() {
         )}
       </div>
 
-      {/* Match History by Serie */}
+      {/* Performance by Serie Chart */}
       {matches.length > 0 && (
         <div className="bg-white rounded-lg shadow-md border border-gray-200">
           <div className="p-6 border-b border-gray-200">
@@ -208,32 +209,75 @@ export default function TeamDetail() {
           </div>
           
           <div className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={[...new Set(matches.map(m => m.serie))].sort().map(serie => {
+                    const serieMatches = matches.filter(m => m.serie === serie);
+                    const totalPoints = serieMatches.reduce((sum, match) => sum + getTeamScore(match, teamName), 0);
+                    
+                    return {
+                      serie: `Serie ${serie}`,
+                      points: totalPoints,
+                      matches: serieMatches.length
+                    };
+                  })}
+                  margin={{
+                    top: 20,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                  }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis 
+                    dataKey="serie" 
+                    tick={{ fontSize: 12 }}
+                  />
+                  <YAxis 
+                    label={{ value: 'Points', angle: -90, position: 'insideLeft' }}
+                    tick={{ fontSize: 12 }}
+                  />
+                  <Tooltip 
+                    formatter={(value, name) => [value, 'Points']}
+                    labelFormatter={(label) => label}
+                    contentStyle={{
+                      backgroundColor: '#f9fafb',
+                      border: '1px solid #e5e7eb',
+                      borderRadius: '6px'
+                    }}
+                  />
+                  <Bar 
+                    dataKey="points" 
+                    fill="#3b82f6"
+                    radius={[4, 4, 0, 0]}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+            
+            {/* Summary stats below chart */}
+            <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
               {[...new Set(matches.map(m => m.serie))].sort().map(serie => {
                 const serieMatches = matches.filter(m => m.serie === serie);
-                const serieWins = serieMatches.filter(match => getMatchResult(match, teamName) === 'win').length;
-                const serieDraws = serieMatches.filter(match => getMatchResult(match, teamName) === 'draw').length;
-                const serieLosses = serieMatches.filter(match => getMatchResult(match, teamName) === 'loss').length;
+                const totalPoints = serieMatches.reduce((sum, match) => sum + getTeamScore(match, teamName), 0);
+                const avgPoints = serieMatches.length > 0 ? (totalPoints / serieMatches.length).toFixed(1) : '0';
                 
                 return (
                   <div key={serie} className="bg-gray-50 rounded-lg p-4">
-                    <h3 className="font-semibold text-gray-900 mb-3">Serie {serie}</h3>
-                    <div className="space-y-2 text-sm">
+                    <h3 className="font-semibold text-gray-900 mb-2">Serie {serie}</h3>
+                    <div className="space-y-1 text-sm">
+                      <div className="flex justify-between">
+                        <span>Total Points:</span>
+                        <span className="font-medium text-blue-600">{totalPoints}</span>
+                      </div>
                       <div className="flex justify-between">
                         <span>Matches:</span>
                         <span className="font-medium">{serieMatches.length}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span>Wins:</span>
-                        <span className="font-medium text-green-600">{serieWins}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Draws:</span>
-                        <span className="font-medium text-yellow-600">{serieDraws}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Losses:</span>
-                        <span className="font-medium text-red-600">{serieLosses}</span>
+                        <span>Avg Points:</span>
+                        <span className="font-medium">{avgPoints}</span>
                       </div>
                     </div>
                   </div>

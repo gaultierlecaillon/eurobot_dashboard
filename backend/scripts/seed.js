@@ -296,12 +296,23 @@ async function seed() {
     
     console.log('Database seeding completed successfully!');
     
+    // Close MongoDB connection
+    await mongoose.connection.close();
+    console.log('MongoDB connection closed');
+    
     // Only exit if this script is run directly, not when called from server.js
     if (require.main === module) {
       process.exit(0);
     }
   } catch (error) {
     console.error('Seeding error:', error);
+    
+    // Close MongoDB connection on error too
+    try {
+      await mongoose.connection.close();
+    } catch (closeError) {
+      console.error('Error closing MongoDB connection:', closeError);
+    }
     
     // Only exit if this script is run directly, not when called from server.js
     if (require.main === module) {
