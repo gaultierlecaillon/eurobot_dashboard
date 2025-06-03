@@ -78,6 +78,30 @@ export interface Ranking {
   updatedAt: string;
 }
 
+export interface Serie {
+  _id: string;
+  serieNumber: number;
+  name: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  status: 'upcoming' | 'ongoing' | 'completed';
+  totalTeams: number;
+  totalMatches: number;
+  location: string;
+  rules: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface SerieStats {
+  serie: Serie;
+  totalMatches: number;
+  totalTeams: number;
+  totalScore: number;
+  averageScore: number;
+}
+
 export interface Stats {
   totalTeams: number;
   totalMatches: number;
@@ -106,6 +130,20 @@ export const apiService = {
   },
   getRankingsBySerie: (serie: number): Promise<{ data: Ranking[] }> => 
     api.get(`/rankings/serie/${serie}`),
+
+  // Series
+  getSeries: (): Promise<{ data: Serie[] }> => api.get('/series'),
+  getSerie: (id: string): Promise<{ data: Serie }> => api.get(`/series/${id}`),
+  getSerieByNumber: (number: number): Promise<{ data: Serie }> => 
+    api.get(`/series/number/${number}`),
+  createSerie: (serie: Partial<Serie>): Promise<{ data: Serie }> => 
+    api.post('/series', serie),
+  updateSerie: (id: string, serie: Partial<Serie>): Promise<{ data: Serie }> => 
+    api.put(`/series/${id}`, serie),
+  deleteSerie: (id: string): Promise<{ data: { message: string } }> => 
+    api.delete(`/series/${id}`),
+  getSerieStats: (id: string): Promise<{ data: SerieStats }> => 
+    api.get(`/series/${id}/stats`),
 
   // Statistics
   getStats: (): Promise<{ data: Stats }> => api.get('/stats'),

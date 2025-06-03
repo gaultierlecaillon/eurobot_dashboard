@@ -1,26 +1,77 @@
-﻿;Équipe;Stand;Origine;Cumul;Joués;Vict.;Égal.;Déf.
-;;;;pts.;;;;
-1er;Bobst;L4; SWITZERLAND;141;1;1;0;0
-2nd;Hyperion Robotics;D9; GREECE;139;1;1;0;0
-3ème;Team Dynamics;D13; AUSTRIA;137;1;1;0;0
-4ème;Bot save the queen;D19; BELGIUM;117;1;1;0;0
-5ème;IEEE RAS INSAT;D18; TUNISIA;110;1;1;0;0
-6ème;Red Wire;D3; SPAIN;108;1;1;0;0
-7ème;NaW Robotics;L11; SERBIA;101;1;1;0;0
-7ème;MAI;L10; GERMANY;101;1;1;0;0
-9ème;Bodensee RobotiX;L7; GERMANY;99;1;0;0;1
-10ème;GRUM;D21; CANADA;79;1;1;0;0
-11ème;RTFM;L6; SWITZERLAND;75;1;0;0;1
-12ème;The engineering way (TEW);D4; SPAIN;69;1;0;0;1
-13ème;MonSymphony;D5; BELGIUM;66;1;1;0;0
-14ème;Gramme ‘N Roll;D6; BELGIUM;59;1;0;0;1
-15ème;+381Robotics;L13; SERBIA;52;1;0;0;1
-16ème;FTN-electropioneer;L12; SERBIA;51;1;1;0;0
-17ème;DIT Robotics;D14; TAIWAN;41;1;0;0;1
-18ème;TeamAuto;L5; SWITZERLAND;30;1;0;0;1
-19ème;Golden Wires UAH;d7; SPAIN;26;1;0;0;1
-20ème;TDA;D12; AUSTRIA;21;1;0;0;1
-21ème;TURAG;D2; GERMANY;11;1;1;0;0
-21ème;Aerobotix INSAT;D17; TUNISIA;11;1;0;0;1
-23ème;Taleb.Bot;D10; ALGERIA;1;1;0;0;1
-24ème;NTHU DIT;D15; TAIWAN;0;1;0;0;1
+﻿;Équipe;Stand;Origine;Cumul pts.;Joués;Vict.;Égal.;Déf.
+1er;RCVA;E9; Ville d’avray;168;1;1;0;0
+2nd;VRAC;K11; Cachan;134;1;1;0;0
+3ème;7Robot;E10; Toulouse;132;1;1;0;0
+4ème;Club Tech RED;C10; Gif sur yvette;128;1;1;0;0
+5ème;Robot ESEO;P5; Angers;114;1;1;0;0
+6ème;TDS-Team Robotique 72;C13;;111;1;1;0;0
+7ème;Les Karibous;C17;;110;1;1;0;0
+8ème;Rocking Giraffe Robotics;C11;;100;1;1;0;0
+8ème;TeamDiff;B6; Metz;100;1;1;0;0
+10ème;Coffee Machine;A2;;95;1;1;0;0
+11ème;COGIP;A9;;92;1;1;0;0
+12ème;Lucid;G2; Brissac-loire-aubance;84;1;1;0;0
+13ème;PM-ROBOTIX;A3;;81;1;1;0;0
+13ème;SUDRIABOTIK;M11; Ivry-sur-seine;81;1;0;0;1
+13ème;Mars Attacks!;A7;;81;1;1;0;0
+16ème;École Iféa;H10; Clichy;79;1;1;0;0
+17ème;Kameleon;M2; Tours;72;1;0;0;1
+18ème;Mécapi;C6;;71;1;0;0;1
+19ème;CRAC1;K12; Cachan;70;1;1;0;0
+20ème;EsialRobotik;M14;;66;1;1;0;0
+21ème;SiERA;E2; Montigny-le-bretonneux;65;1;1;0;0
+21ème;Club Tech CentraleSupélec;C9; Gif sur yvette;65;1;1;0;0
+23ème;Enac Robotique;K8; Toulouse;64;1;0;0;1
+23ème;Edog&Leo;A8;;64;1;0;0;1
+25ème;Krabi;C7;;63;1;0;0;1
+26ème;Robot Club Toulon;K18; La garde;61;1;1;0;0
+27ème;ChampiCircuits;E8; Chaumot;57;1;1;0;0
+27ème;CRIG-2;G8; Villetaneuse;57;1;0;0;1
+29ème;Ze Crazy Team;N4; Lans en vercors;53;1;1;0;0
+29ème;ARIG;P8; Chasse sur rhône;53;1;0;0;1
+31ème;coc’otter;L3;;52;1;0;0;1
+32ème;Sartroubot;K17; Sartrouville;51;1;0;1;0
+32ème;Breizh Bot;E11; Rennes;51;1;0;1;0
+32ème;E.S.C.Ro.C.S.;k7; Avon;51;1;0;0;1
+35ème;UTCoupe;E7; Compiègne;49;1;1;0;0
+36ème;Roboticam Vendée;B4; Couffe;48;1;0;0;1
+37ème;DaVinciBot;G9; Courbevoie;47;1;1;0;0
+37ème;MiAM Robotique;A10;;47;1;1;0;0
+39ème;Les brasseurs d’idées;G12;;45;1;1;0;0
+40ème;UniDucks;H4; Amiens;44;1;1;0;0
+41ème;Opossums;K19; Toulouse;43;1;0;0;1
+41ème;Zest Machine;P6; Lyon;43;1;1;0;0
+43ème;UniGaffr;C12; Amiens;41;1;0;0;1
+44ème;Goldorak;A1;;39;1;0;0;1
+45ème;Les Karibelles;C18; Amiens;38;1;0;0;1
+46ème;Asso R2T2;G11; Avignon;37;1;0;0;1
+46ème;LYCEE DE L’ARC SI ARC-BOT;H11; Orange;37;1;1;0;0
+48ème;Eigstatix;K15; La rochelle;36;1;0;0;1
+49ème;Evolutek;B1; Le kremlin-bicêtre;35;1;0;0;1
+50ème;Ares ENSEA;K3; Cergy;34;1;0;0;1
+51ème;A cappella (Sikula Robotik);A4;;31;1;1;0;0
+51ème;Riombotique;D1; Riom;31;1;0;0;1
+53ème;Team Chat Robotique;C1; Châtenoy-le-royal;29;1;0;0;1
+53ème;IUT_Nice;M12; Nice;29;1;1;0;0
+53ème;Pokibot;M1; Tours;29;1;0;0;1
+56ème;Roboticam Vendée 2;B5; La roche sur yon;25;1;1;0;0
+57ème;Lab Sciren Robotics;C5; Nantes;24;1;1;0;0
+58ème;Eirbot;M3; Talence;22;1;0;0;1
+59ème;HARPers;M13; Chatou;21;1;0;0;1
+60ème;Robotronik PHELMA;H1; Cachan;20;1;1;0;0
+60ème;R3EA;E5; Reims cedex 2;20;1;1;0;0
+62ème;EagleTech;A11;;13;1;0;0;1
+63ème;Tuxae;K14; Palaiseau;11;1;0;0;1
+64ème;Projet & Tech’;L2; Saint-etienne;9;1;0;0;1
+64ème;Robooh (ENSIL-ENSCI);G3; Limoges;9;1;1;0;0
+64ème;Metal Pipe;M5; Talence;9;1;0;0;1
+67ème;CRLG;P13; Les mesnuls;5;1;1;0;0
+68ème;IZARRA;M8; Bidart;1;1;0;0;1
+68ème;CRENIM;H6; Metz;1;1;0;0;1
+68ème;OverTheRainBot Ense3;E3; Grenoble;1;1;0;0;1
+68ème;UniWIP;H9; Amiens;1;1;0;0;1
+72ème;CRIG-1;G7; Villetaneuse;0;1;0;0;1
+72ème;Nantrobot;P12; Nantes;0;1;0;0;1
+72ème;Eceborg;B3; Paris;0;1;0;0;1
+72ème;PinMode;R2; Chateau renault;0;1;0;0;1
+72ème;ARC;M6; Talence;0;1;0;0;1

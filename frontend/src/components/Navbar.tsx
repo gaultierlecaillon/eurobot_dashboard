@@ -9,6 +9,7 @@ const Navbar = () => {
 
   const navItems = [
     { path: '/', label: 'Dashboard', icon: '📊' },
+    { path: '/series', label: 'Series', icon: '📋' },
     { path: '/rankings', label: 'Rankings', icon: '🏆' },
     { path: '/matches', label: 'Matches', icon: '⚔️' },
     { path: '/teams', label: 'Teams', icon: '🤖' },

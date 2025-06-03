@@ -1,14 +1,47 @@
-﻿#;;Équipe 1;Score;;Équipe 2;
-18;D15;NTHU DIT;1;26;Aerobotix INSAT;D17
-19;L11;NaW Robotics;119;117;Red Wire;D3
-20;L4;Bobst;100;31;DIT Robotics;D14
-21;L10;MAI;76;104;Bodensee RobotiX;L7
-22;D2;TURAG;72;133;MonSymphony;D5
-23;D18;IEEE RAS INSAT;85;122;Bot save the queen;D19
-24;D11;Polybot;0;1;Taleb.Bot;D10
-25;L12;FTN-electropioneer;79;78;The engineering way (TEW);D4
-26;d7;Golden Wires UAH;45;174;TDA;D12
-27;L6;RTFM;120;58;GRUM;D21
-28;L5;TeamAuto;80;48;HMU Robotics Club;D16
-29;L13;+381Robotics;30;70;Gramme ‘N Roll;D6
-30;D13;Team Dynamics;179;0;Hyperion Robotics;D9
+﻿#;Stand;Équipe 1;Score;Stand;Équipe 2;
+43;C13;TDS-Team Robotique 72;98;70;Rocking Giraffe Robotics;C11
+44;C18;Les Karibelles;55;54;CRLG;P13
+45;B3;Eceborg;21;21;Polybot Grenoble;P1
+46;N4;Ze Crazy Team;30;21;HARPers;M13
+47;A7;Mars Attacks!;75;98;Lucid;G2
+48;A11;EagleTech;1;35;Clubelek;H5
+51;A1;Goldorak;92;21;EsialRobotik;M14
+52;K3;Ares ENSEA;31;1;Eigstatix;K15
+53;K11;VRAC;156;113;TeamDiff;B6
+54;E1;K-R1BOU;0;53;Lab Sciren Robotics;C5
+55;P6;Zest Machine;85;116;Kameleon;M2
+56;C7;Krabi;56;123;Club Tech RED;C10
+57;A10;MiAM Robotique;106;111;7Robot;E10
+58;G3;Robooh (ENSIL-ENSCI);19;22;SUSSUS INVADERS;C8
+59;M4;Magic Syst’eirb;42;29;IUT_Nice;M12
+60;M6;ARC;49;0;Projet & Tech’;L2
+61;G9;DaVinciBot;19;53;Robot ESEO;P5
+62;H1;Robotronik PHELMA;26;11;E.S.C.Ro.C.S.;k7
+63;B1;Evolutek;81;80;Roboticam Vendée 2;B5
+64;E9;RCVA;51;34;UniGaffr;C12
+65;A2;Coffee Machine;95;82;Mécapi;C6
+66;K18;Robot Club Toulon;66;91;SUDRIABOTIK;M11
+67;A5;Supaero Robotik Club;1;56;CD-ROMS;M10
+68;K12;CRAC1;102;54;SiERA;E2
+69;A9;COGIP;114;59;Enac Robotique;K8
+70;P8;ARIG;129;36;Nantrobot;P12
+71;H7;RATP;39;0;ENSMASTEEL;M7
+72;H10;École Iféa;51;87;Les Karibous;C17
+73;H6;CRENIM;56;58;Metal Pipe;M5
+74;H9;UniWIP;55;54;Riombotique;D1
+75;E11;Breizh Bot;6;71;UTCoupe;E7
+76;C9;Club Tech CentraleSupélec;118;1;ChampiCircuits;E8
+77;H11;LYCEE DE L’ARC SI ARC-BOT;1;55;UniDucks;H4
+78;K14;Tuxae;21;1;CRIG-1;G7
+79;L3;coc’otter;108;51;PM-ROBOTIX;A3
+80;K17;Sartroubot;96;39;A cappella (Sikula Robotik);A4
+81;K5;CRUBS;1;79;Edog&Leo;A8
+82;R2;PinMode;1;58;CRIG-2;G8
+83;C1;Team Chat Robotique;29;19;FIPATECH;P10
+84;B8;ENSIM’Elec;21;40;Mecatronica (ENSIL-ENSCI);G5
+85;M3;Eirbot;47;59;Pokibot;M1
+86;G11;Asso R2T2;47;52;R3EA;E5
+87;K19;Opossums;53;64;Roboticam Vendée;B4
+88;G12;Les brasseurs d’idées;50;38;Sharp’Attack;E6
+91;C8;SUSSUS INVADERS;11;1;IZARRA;M8
+92;K20;Esig’tronix;46;26;OverTheRainBot Ense3;E3

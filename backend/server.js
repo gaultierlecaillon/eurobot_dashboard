@@ -6,6 +6,7 @@ require('dotenv').config();
 const Team = require('./models/Team');
 const Match = require('./models/Match');
 const Ranking = require('./models/Ranking');
+const Serie = require('./models/Serie');
 const { seed } = require('./scripts/seed');
 
 const app = express();
@@ -102,6 +103,120 @@ app.get('/api/rankings/serie/:serie', async (req, res) => {
     const serie = parseInt(req.params.serie);
     const rankings = await Ranking.find({ serie }).sort({ position: 1 });
     res.json(rankings);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Series routes
+
+// Get all series
+app.get('/api/series', async (req, res) => {
+  try {
+    const series = await Serie.find().sort({ serieNumber: 1 });
+    res.json(series);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get serie by ID
+app.get('/api/series/:id', async (req, res) => {
+  try {
+    const serie = await Serie.findById(req.params.id);
+    if (!serie) {
+      return res.status(404).json({ error: 'Serie not found' });
+    }
+    res.json(serie);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get serie by number
+app.get('/api/series/number/:number', async (req, res) => {
+  try {
+    const serieNumber = parseInt(req.params.number);
+    const serie = await Serie.findOne({ serieNumber });
+    if (!serie) {
+      return res.status(404).json({ error: 'Serie not found' });
+    }
+    res.json(serie);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Create new serie
+app.post('/api/series', async (req, res) => {
+  try {
+    const serie = new Serie(req.body);
+    await serie.save();
+    res.status(201).json(serie);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// Update serie
+app.put('/api/series/:id', async (req, res) => {
+  try {
+    const serie = await Serie.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    );
+    if (!serie) {
+      return res.status(404).json({ error: 'Serie not found' });
+    }
+    res.json(serie);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// Delete serie
+app.delete('/api/series/:id', async (req, res) => {
+  try {
+    const serie = await Serie.findByIdAndDelete(req.params.id);
+    if (!serie) {
+      return res.status(404).json({ error: 'Serie not found' });
+    }
+    res.json({ message: 'Serie deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get serie statistics
+app.get('/api/series/:id/stats', async (req, res) => {
+  try {
+    const serie = await Serie.findById(req.params.id);
+    if (!serie) {
+      return res.status(404).json({ error: 'Serie not found' });
+    }
+
+    const totalMatches = await Match.countDocuments({ serie: serie.serieNumber });
+    const totalTeams = await Ranking.countDocuments({ serie: serie.serieNumber });
+    
+    const matchStats = await Match.aggregate([
+      { $match: { serie: serie.serieNumber } },
+      {
+        $group: {
+          _id: null,
+          totalScore: { $sum: { $add: ['$team1.score', '$team2.score'] } },
+          avgScore: { $avg: { $add: ['$team1.score', '$team2.score'] } }
+        }
+      }
+    ]);
+
+    res.json({
+      serie,
+      totalMatches,
+      totalTeams,
+      totalScore: matchStats[0]?.totalScore || 0,
+      averageScore: matchStats[0]?.avgScore || 0
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
