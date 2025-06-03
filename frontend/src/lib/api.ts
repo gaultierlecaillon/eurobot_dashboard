@@ -116,6 +116,8 @@ export const apiService = {
   // Teams
   getTeams: (): Promise<{ data: Team[] }> => api.get('/teams'),
   getTeam: (id: string): Promise<{ data: Team }> => api.get(`/teams/${id}`),
+  getTeamMatches: (teamName: string): Promise<{ data: Match[] }> => 
+    api.get(`/teams/${encodeURIComponent(teamName)}/matches`),
 
   // Matches
   getMatches: (serie?: number): Promise<{ data: Match[] }> => {

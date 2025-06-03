@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { apiService, Team } from '@/lib/api';
 
 export default function Teams() {
@@ -111,7 +112,11 @@ export default function Teams() {
       {/* Teams Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {filteredTeams.map((team) => (
-          <div key={team._id} className="bg-white rounded-lg shadow-md border border-gray-200 p-6 hover:shadow-lg transition-shadow duration-200">
+          <Link 
+            key={team._id} 
+            href={`/teams/${encodeURIComponent(team.name)}`}
+            className="bg-white rounded-lg shadow-md border border-gray-200 p-6 hover:shadow-lg hover:border-blue-300 transition-all duration-200 cursor-pointer block"
+          >
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                 <span className="text-2xl">🤖</span>
@@ -122,7 +127,7 @@ export default function Teams() {
             </div>
             
             <div className="space-y-2">
-              <h3 className="text-lg font-semibold text-gray-900 line-clamp-2">
+              <h3 className="text-lg font-semibold text-gray-900 line-clamp-2 hover:text-blue-600 transition-colors duration-200">
                 {team.name}
               </h3>
               <div className="flex items-center space-x-2">
@@ -137,7 +142,7 @@ export default function Teams() {
                 <span>Team ID: {team._id.slice(-6)}</span>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 

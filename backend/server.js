@@ -85,6 +85,22 @@ app.get('/api/matches/:id', async (req, res) => {
   }
 });
 
+// Get matches by team name
+app.get('/api/teams/:teamName/matches', async (req, res) => {
+  try {
+    const teamName = decodeURIComponent(req.params.teamName);
+    const matches = await Match.find({
+      $or: [
+        { 'team1.name': teamName },
+        { 'team2.name': teamName }
+      ]
+    }).sort({ serie: 1, matchNumber: 1 });
+    res.json(matches);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Get all rankings
 app.get('/api/rankings', async (req, res) => {
   try {
