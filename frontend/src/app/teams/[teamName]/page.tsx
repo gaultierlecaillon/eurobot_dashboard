@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { apiService, Match, Team } from '@/lib/api';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 export default function TeamDetail() {
   const params = useParams();
@@ -69,6 +69,8 @@ export default function TeamDetail() {
   const losses = matches.filter(match => getMatchResult(match, teamName) === 'loss').length;
   const totalPoints = matches.reduce((sum, match) => sum + getTeamScore(match, teamName), 0);
   const totalOpponentPoints = matches.reduce((sum, match) => sum + getOpponentScore(match, teamName), 0);
+  const maxPointsInMatch = matches.length > 0 ? Math.max(...matches.map(match => getTeamScore(match, teamName))) : 0;
+  const avgPointsPerMatch = matches.length > 0 ? (totalPoints / matches.length).toFixed(1) : '0';
 
   if (loading) {
     return (
@@ -123,24 +125,39 @@ export default function TeamDetail() {
       {/* Statistics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-          <h4 className="text-lg font-semibold text-gray-900 mb-2">Victories</h4>
-          <p className="text-3xl font-bold text-green-600">{wins}</p>
-        </div>
-        
-        <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-          <h4 className="text-lg font-semibold text-gray-900 mb-2">Draws</h4>
-          <p className="text-3xl font-bold text-yellow-600">{draws}</p>
-        </div>
-        
-        <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-          <h4 className="text-lg font-semibold text-gray-900 mb-2">Defeats</h4>
-          <p className="text-3xl font-bold text-red-600">{losses}</p>
+          <h4 className="text-lg font-semibold text-gray-900 mb-3">Match Results</h4>
+          <div className="space-y-2">
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-600">Victories:</span>
+              <span className="font-bold text-green-600">{wins}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-600">Draws:</span>
+              <span className="font-bold text-yellow-600">{draws}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-600">Defeats:</span>
+              <span className="font-bold text-red-600">{losses}</span>
+            </div>
+          </div>
         </div>
 
         <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-          <h4 className="text-lg font-semibold text-gray-900 mb-2">Points Scored</h4>
+          <h4 className="text-lg font-semibold text-gray-900 mb-2">Total Points</h4>
           <p className="text-3xl font-bold text-blue-600">{totalPoints}</p>
           <p className="text-sm text-gray-500">vs {totalOpponentPoints} conceded</p>
+        </div>
+        
+        <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
+          <h4 className="text-lg font-semibold text-gray-900 mb-2">Max Points</h4>
+          <p className="text-3xl font-bold text-purple-600">{maxPointsInMatch}</p>
+          <p className="text-sm text-gray-500">in a single match</p>
+        </div>
+
+        <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
+          <h4 className="text-lg font-semibold text-gray-900 mb-2">Avg Points</h4>
+          <p className="text-3xl font-bold text-orange-600">{avgPointsPerMatch}</p>
+          <p className="text-sm text-gray-500">per match</p>
         </div>
       </div>
 
@@ -217,7 +234,7 @@ export default function TeamDetail() {
           <div className="p-6">
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart
+                <LineChart
                   data={[...new Set(matches.map(m => m.serie))].sort().map(serie => {
                     const serieMatches = matches.filter(m => m.serie === serie);
                     const totalPoints = serieMatches.reduce((sum, match) => sum + getTeamScore(match, teamName), 0);
@@ -253,42 +270,16 @@ export default function TeamDetail() {
                       borderRadius: '6px'
                     }}
                   />
-                  <Bar 
+                  <Line 
+                    type="monotone"
                     dataKey="points" 
-                    fill="#3b82f6"
-                    radius={[4, 4, 0, 0]}
+                    stroke="#3b82f6"
+                    strokeWidth={3}
+                    dot={{ fill: '#3b82f6', strokeWidth: 2, r: 6 }}
+                    activeDot={{ r: 8, stroke: '#3b82f6', strokeWidth: 2 }}
                   />
-                </BarChart>
+                </LineChart>
               </ResponsiveContainer>
-            </div>
-            
-            {/* Summary stats below chart */}
-            <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-              {[...new Set(matches.map(m => m.serie))].sort().map(serie => {
-                const serieMatches = matches.filter(m => m.serie === serie);
-                const totalPoints = serieMatches.reduce((sum, match) => sum + getTeamScore(match, teamName), 0);
-                const avgPoints = serieMatches.length > 0 ? (totalPoints / serieMatches.length).toFixed(1) : '0';
-                
-                return (
-                  <div key={serie} className="bg-gray-50 rounded-lg p-4">
-                    <h3 className="font-semibold text-gray-900 mb-2">Serie {serie}</h3>
-                    <div className="space-y-1 text-sm">
-                      <div className="flex justify-between">
-                        <span>Total Points:</span>
-                        <span className="font-medium text-blue-600">{totalPoints}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Matches:</span>
-                        <span className="font-medium">{serieMatches.length}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Avg Points:</span>
-                        <span className="font-medium">{avgPoints}</span>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
             </div>
           </div>
         </div>
