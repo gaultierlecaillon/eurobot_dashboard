@@ -1,4 +1,4 @@
-# Eurobot Dashboard
+# Eurobot 2025 Dashboard
 
 A comprehensive Docker Compose project for visualizing robotics competition data with a React/Next.js frontend, Node.js backend, and MongoDB database.
 

@@ -251,7 +251,16 @@ app.get('/api/stats', async (req, res) => {
       { $sort: { _id: 1 } }
     ]);
     
-    const topTeams = await Ranking.find({ serie: 3 })
+    // Find the latest serie with rankings
+    const latestSerieWithRankings = await Ranking.aggregate([
+      { $group: { _id: '$serie' } },
+      { $sort: { _id: -1 } },
+      { $limit: 1 }
+    ]);
+    
+    const lastKnownSerie = latestSerieWithRankings.length > 0 ? latestSerieWithRankings[0]._id : 1;
+    
+    const topTeams = await Ranking.find({ serie: lastKnownSerie })
       .sort({ position: 1 })
       .limit(5);
     
@@ -261,7 +270,8 @@ app.get('/api/stats', async (req, res) => {
       totalRankings,
       totalSeries,
       matchesBySerie,
-      topTeams
+      topTeams,
+      lastKnownSerie
     });
   } catch (error) {
     res.status(500).json({ error: error.message });

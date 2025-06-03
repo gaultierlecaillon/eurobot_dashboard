@@ -1,7 +1,7 @@
 {
   "name": "eurobot-backend",
   "version": "1.0.0",
-  "description": "Backend API for Eurobot Dashboard",
+  "description": "Backend API for Eurobot 2025 Dashboard",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

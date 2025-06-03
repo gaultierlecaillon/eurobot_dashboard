@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Eurobot Dashboard",
+  title: "Eurobot 2025 Dashboard",
   description: "Robotics Competition Data Visualization",
 };
 

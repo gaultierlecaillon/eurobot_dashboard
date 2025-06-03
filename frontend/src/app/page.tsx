@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { apiService, Stats } from '@/lib/api';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
@@ -51,7 +52,7 @@ export default function Dashboard() {
     <div className="space-y-6">
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg p-6 text-white">
-        <h1 className="text-3xl font-bold mb-2">Eurobot Dashboard</h1>
+        <h1 className="text-3xl font-bold mb-2">Eurobot 2025 Dashboard</h1>
         <p className="text-blue-100">Competition overview and statistics</p>
       </div>
 
@@ -92,18 +93,6 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-
-        <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-          <div className="flex items-center">
-            <div className="p-3 rounded-full bg-purple-100 text-purple-600">
-              <span className="text-2xl">📊</span>
-            </div>
-            <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Rankings</p>
-              <p className="text-2xl font-semibold text-gray-900">{stats?.totalRankings || 0}</p>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Charts */}
@@ -125,7 +114,9 @@ export default function Dashboard() {
 
         {/* Top Teams */}
         <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Top 5 Teams (Serie 3)</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            Top 5 Teams (Serie {stats?.lastKnownSerie || 1})
+          </h3>
           <div className="space-y-3">
             {stats?.topTeams?.slice(0, 5).map((team, index) => (
               <div key={team._id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
@@ -138,13 +129,22 @@ export default function Dashboard() {
                     {team.position}
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900">{team.team.name}</p>
+                    <Link 
+                      href={`/teams/${encodeURIComponent(team.team.name)}`}
+                      className="font-medium text-gray-900 hover:text-blue-600 transition-colors duration-200 cursor-pointer"
+                    >
+                      {team.team.name}
+                    </Link>
                     <p className="text-sm text-gray-500">{team.team.origin}</p>
                   </div>
                 </div>
                 <div className="text-right">
                   <p className="font-semibold text-gray-900">{team.points} pts</p>
-                  <p className="text-sm text-gray-500">{team.victories}W-{team.draws}D-{team.defeats}L</p>
+                  <div className="text-sm">
+                    <span className="text-green-600 font-medium">{team.victories}</span>W-
+                    <span className="text-yellow-600 font-medium">{team.draws}</span>D-
+                    <span className="text-red-600 font-medium">{team.defeats}</span>L
+                  </div>
                 </div>
               </div>
             ))}

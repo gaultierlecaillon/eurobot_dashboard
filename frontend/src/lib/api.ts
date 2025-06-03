@@ -110,6 +110,7 @@ export interface Stats {
   totalSeries: number;
   matchesBySerie: Array<{ _id: number; count: number }>;
   topTeams: Ranking[];
+  lastKnownSerie: number;
 }
 
 // API methods

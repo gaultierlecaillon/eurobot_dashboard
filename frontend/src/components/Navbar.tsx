@@ -24,7 +24,7 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex items-center space-x-2">
             <span className="text-2xl">🤖</span>
-            <h1 className="text-xl font-bold text-gray-800">Eurobot Dashboard</h1>
+            <h1 className="text-xl font-bold text-gray-800">Eurobot 2025 Dashboard</h1>
           </div>
 
           {/* Navigation Links */}
