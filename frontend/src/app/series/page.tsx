@@ -81,77 +81,93 @@ const SeriesPage = () => {
           <p className="text-gray-400 mt-2">Series data will appear here once available.</p>
         </div>
       ) : (
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Serie
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Name
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Dates
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Teams
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Matches
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Location
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {series.map((serie) => (
-                  <tr key={serie._id} className="hover:bg-gray-50 transition-colors duration-200">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10">
-                          <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
-                            <span className="text-blue-600 font-bold text-sm">
-                              {serie.serieNumber}
-                            </span>
-                          </div>
+        <div className="space-y-8">
+          {series.map((serie) => (
+            <div key={serie._id} className="bg-white shadow-lg rounded-lg overflow-hidden">
+              <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="h-12 w-12 rounded-full bg-white bg-opacity-20 flex items-center justify-center">
+                      <span className="text-white font-bold text-lg">
+                        {serie.serieNumber}
+                      </span>
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-bold text-white">{serie.name}</h2>
+                      <p className="text-blue-100">{serie.description}</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    {getStatusBadge(serie.status)}
+                  </div>
+                </div>
+              </div>
+              
+              <div className="p-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* Serie Information */}
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="bg-gray-50 p-4 rounded-lg">
+                        <div className="text-2xl font-bold text-gray-900">{serie.totalTeams}</div>
+                        <div className="text-sm text-gray-500">Teams</div>
+                      </div>
+                      <div className="bg-gray-50 p-4 rounded-lg">
+                        <div className="text-2xl font-bold text-gray-900">{serie.totalMatches}</div>
+                        <div className="text-sm text-gray-500">Matches</div>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <div>
+                        <h3 className="text-sm font-medium text-gray-500">Duration</h3>
+                        <p className="text-gray-900">
+                          {formatDate(serie.startDate)} - {formatDate(serie.endDate)}
+                        </p>
+                      </div>
+                      
+                      <div>
+                        <h3 className="text-sm font-medium text-gray-500">Location</h3>
+                        <p className="text-gray-900">{serie.location}</p>
+                      </div>
+                      
+                      <div>
+                        <h3 className="text-sm font-medium text-gray-500">Rules</h3>
+                        <p className="text-gray-900">{serie.rules}</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Live Stream Video */}
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Live Stream</h3>
+                    {serie.liveStreamUrl ? (
+                      <div className="aspect-video">
+                        <iframe
+                          width="100%"
+                          height="100%"
+                          src={serie.liveStreamUrl}
+                          title={`${serie.name} - Live Stream`}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          referrerPolicy="strict-origin-when-cross-origin"
+                          allowFullScreen
+                          className="rounded-lg shadow-md"
+                        ></iframe>
+                      </div>
+                    ) : (
+                      <div className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center">
+                        <div className="text-center">
+                          <div className="text-gray-400 text-lg mb-2">📹</div>
+                          <p className="text-gray-500">No live stream available</p>
                         </div>
                       </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="text-sm font-medium text-gray-900">{serie.name}</div>
-                      <div className="text-sm text-gray-500 max-w-xs truncate" title={serie.description}>
-                        {serie.description}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {getStatusBadge(serie.status)}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      <div>{formatDate(serie.startDate)}</div>
-                      <div className="text-gray-500">to {formatDate(serie.endDate)}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">{serie.totalTeams}</div>
-                      <div className="text-sm text-gray-500">teams</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">{serie.totalMatches}</div>
-                      <div className="text-sm text-gray-500">matches</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {serie.location}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       )}
 

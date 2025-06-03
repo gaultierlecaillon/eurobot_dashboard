@@ -90,6 +90,7 @@ export interface Serie {
   totalMatches: number;
   location: string;
   rules: string;
+  liveStreamUrl: string;
   createdAt: string;
   updatedAt: string;
 }

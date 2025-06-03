@@ -10,6 +10,7 @@ const Serie = require('../models/Serie');
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://admin:password123@localhost:27018/eurobot?authSource=admin';
 const DATA_DIR = path.join(__dirname, '../../data');
+const CONFIG_DIR = path.join(__dirname, '../config');
 
 /**
  * Discover all CSV files in the data directory and extract series information
@@ -44,10 +45,25 @@ function discoverCSVFiles() {
 }
 
 /**
+ * Load series configuration from JSON file
+ */
+function loadSeriesConfig() {
+  try {
+    const configPath = path.join(CONFIG_DIR, 'series-config.json');
+    const configData = fs.readFileSync(configPath, 'utf8');
+    return JSON.parse(configData);
+  } catch (error) {
+    console.warn('Could not load series configuration:', error.message);
+    return { liveStreamUrls: {} };
+  }
+}
+
+/**
  * Generate basic series metadata from discovered files
  */
 function generateSeriesMetadata(seriesNumbers) {
   const currentDate = new Date();
+  const config = loadSeriesConfig();
   
   return Array.from(seriesNumbers).sort().map((serieNumber, index) => {
     const daysOffset = (seriesNumbers.size - index) * 10; // Space series 10 days apart
@@ -60,7 +76,8 @@ function generateSeriesMetadata(seriesNumbers) {
       endDate: new Date(currentDate.getTime() - daysOffset * 24 * 60 * 60 * 1000),
       status: 'completed',
       location: 'La Roche-sur-Yon, France',
-      rules: 'Standard Eurobot 2024 rules apply. Match duration: 100 seconds.'
+      rules: 'Standard Eurobot 2024 rules apply. Match duration: 100 seconds.',
+      liveStreamUrl: config.liveStreamUrls[serieNumber.toString()] || ''
     };
   });
 }

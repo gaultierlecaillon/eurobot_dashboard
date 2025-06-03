@@ -42,6 +42,10 @@ const serieSchema = new mongoose.Schema({
   rules: {
     type: String,
     default: ''
+  },
+  liveStreamUrl: {
+    type: String,
+    default: ''
   }
 }, {
   timestamps: true
