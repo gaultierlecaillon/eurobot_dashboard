@@ -11,6 +11,7 @@ export default function Rankings() {
   const [seriesLoading, setSeriesLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedSerie, setSelectedSerie] = useState<number | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const fetchSeries = useCallback(async () => {
     try {
@@ -88,30 +89,53 @@ export default function Rankings() {
         <p className="text-slate-400">Team standings and performance</p>
       </div>
 
-      {/* Serie Selector */}
+      {/* Filters */}
       <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
-        <h3 className="text-lg font-semibold text-slate-100 mb-4">Select Serie</h3>
-        {seriesLoading ? (
-          <div className="flex justify-center items-center h-12">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-slate-400"></div>
+        <h3 className="text-lg font-semibold text-slate-100 mb-4">Filters</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Search */}
+          <div>
+            <label htmlFor="search" className="block text-sm font-medium text-slate-300 mb-2">
+              Search Rankings
+            </label>
+            <input
+              type="text"
+              id="search"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Search by team name, stand, or origin..."
+              className="w-full px-3 py-2 border border-slate-600 bg-slate-700 text-slate-100 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent placeholder-slate-400"
+            />
           </div>
-        ) : (
-          <div className="flex flex-wrap gap-4">
-            {series.map((serie) => (
-              <button
-                key={serie.serieNumber}
-                onClick={() => setSelectedSerie(serie.serieNumber)}
-                className={`px-4 py-2 rounded-md font-medium transition-colors duration-200 ${
-                  selectedSerie === serie.serieNumber
-                    ? 'bg-slate-600 text-slate-100'
-                    : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-                }`}
-              >
-                Serie {serie.serieNumber}
-              </button>
-            ))}
+
+          {/* Serie Selector */}
+          <div>
+            <label htmlFor="serie" className="block text-sm font-medium text-slate-300 mb-2">
+              Select Serie
+            </label>
+            {seriesLoading ? (
+              <div className="flex justify-center items-center h-10">
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-slate-400"></div>
+              </div>
+            ) : (
+              <div className="flex flex-wrap gap-2">
+                {series.map((serie) => (
+                  <button
+                    key={serie.serieNumber}
+                    onClick={() => setSelectedSerie(serie.serieNumber)}
+                    className={`px-3 py-1 rounded-md font-medium transition-colors duration-200 ${
+                      selectedSerie === serie.serieNumber
+                        ? 'bg-slate-600 text-slate-100'
+                        : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                    }`}
+                  >
+                    Serie {serie.serieNumber}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
 
       {/* Rankings Table */}
@@ -156,8 +180,32 @@ export default function Rankings() {
                       No rankings available for Serie {selectedSerie}
                     </td>
                   </tr>
-                ) : (
-                  rankings.map((ranking) => (
+                ) : (() => {
+                  // Filter rankings based on search term
+                  const filteredRankings = rankings.filter(ranking => {
+                    const teamName = ranking.team.name.toLowerCase();
+                    const teamStand = ranking.team.stand.toLowerCase();
+                    const teamOrigin = ranking.team.origin.toLowerCase();
+                    const search = searchTerm.toLowerCase();
+                    
+                    return teamName.includes(search) || 
+                           teamStand.includes(search) || 
+                           teamOrigin.includes(search);
+                  });
+                  
+                  if (filteredRankings.length === 0) {
+                    return (
+                      <tr>
+                        <td colSpan={6} className="px-6 py-8 text-center">
+                          <div className="text-slate-400 text-6xl mb-4">🔍</div>
+                          <h3 className="text-lg font-medium text-slate-100 mb-2">No teams found</h3>
+                          <p className="text-slate-400">Try adjusting your search criteria.</p>
+                        </td>
+                      </tr>
+                    );
+                  }
+                  
+                  return filteredRankings.map((ranking) => (
                     <tr key={ranking._id} className="hover:bg-slate-700/50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${getPositionBadge(ranking.position)}`}>
@@ -194,8 +242,8 @@ export default function Rankings() {
                         </div>
                       </td>
                     </tr>
-                  ))
-                )}
+                  ));
+                })()}
               </tbody>
             </table>
           </div>
@@ -203,10 +251,26 @@ export default function Rankings() {
       </div>
 
       {/* Statistics */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
           <h4 className="text-lg font-semibold text-slate-100 mb-2">Total Teams</h4>
           <p className="text-3xl font-bold text-slate-100">{rankings.length}</p>
+        </div>
+        
+        <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
+          <h4 className="text-lg font-semibold text-slate-100 mb-2">Filtered</h4>
+          <p className="text-3xl font-bold text-slate-100">
+            {searchTerm ? rankings.filter(ranking => {
+              const teamName = ranking.team.name.toLowerCase();
+              const teamStand = ranking.team.stand.toLowerCase();
+              const teamOrigin = ranking.team.origin.toLowerCase();
+              const search = searchTerm.toLowerCase();
+              
+              return teamName.includes(search) || 
+                     teamStand.includes(search) || 
+                     teamOrigin.includes(search);
+            }).length : rankings.length}
+          </p>
         </div>
         
         <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">

@@ -8,6 +8,7 @@ const SeriesPage = () => {
   const [series, setSeries] = useState<Serie[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchSeries = async () => {
@@ -78,6 +79,24 @@ const SeriesPage = () => {
           <p className="text-slate-400">Overview of all Eurobot competition series</p>
         </div>
         
+        {/* Search Bar */}
+        <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6 mt-6">
+          <h3 className="text-lg font-semibold text-slate-100 mb-4">Search</h3>
+          <div className="w-full">
+            <label htmlFor="search" className="block text-sm font-medium text-slate-300 mb-2">
+              Search Series
+            </label>
+            <input
+              type="text"
+              id="search"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Search by name, description, location..."
+              className="w-full px-3 py-2 border border-slate-600 bg-slate-700 text-slate-100 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent placeholder-slate-400"
+            />
+          </div>
+        </div>
+        
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
           <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
@@ -127,9 +146,35 @@ const SeriesPage = () => {
           <div className="text-slate-400 text-lg">No series found</div>
           <p className="text-slate-500 mt-2">Series data will appear here once available.</p>
         </div>
-      ) : (
-        <div className="space-y-8">
-          {series.map((serie) => (
+      ) : (() => {
+        // Filter series based on search term
+        const filteredSeries = series.filter(serie => {
+          const name = serie.name.toLowerCase();
+          const description = serie.description.toLowerCase();
+          const location = serie.location.toLowerCase();
+          const rules = serie.rules.toLowerCase();
+          const search = searchTerm.toLowerCase();
+          
+          return name.includes(search) || 
+                 description.includes(search) || 
+                 location.includes(search) ||
+                 rules.includes(search) ||
+                 serie.serieNumber.toString().includes(search);
+        });
+        
+        if (filteredSeries.length === 0) {
+          return (
+            <div className="text-center py-12">
+              <div className="text-slate-400 text-6xl mb-4">🔍</div>
+              <h3 className="text-lg font-medium text-slate-100 mb-2">No series found</h3>
+              <p className="text-slate-400">Try adjusting your search criteria.</p>
+            </div>
+          );
+        }
+        
+        return (
+          <div className="space-y-8">
+            {filteredSeries.map((serie) => (
             <div key={serie._id} className="bg-slate-800 shadow-lg rounded-lg overflow-hidden border border-slate-700">
               <div className="bg-slate-700 px-6 py-4 border-b border-slate-600">
                 <div className="flex items-center justify-between">
@@ -225,9 +270,51 @@ const SeriesPage = () => {
                 </div>
               </div>
             </div>
-          ))}
+            ))}
+          </div>
+        );
+      })()}
+      
+      {/* Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
+        <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
+          <h4 className="text-lg font-semibold text-slate-100 mb-2">Total Series</h4>
+          <p className="text-3xl font-bold text-slate-100">{series.length}</p>
         </div>
-      )}
+        
+        <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
+          <h4 className="text-lg font-semibold text-slate-100 mb-2">Filtered</h4>
+          <p className="text-3xl font-bold text-slate-100">
+            {searchTerm ? series.filter(serie => {
+              const name = serie.name.toLowerCase();
+              const description = serie.description.toLowerCase();
+              const location = serie.location.toLowerCase();
+              const rules = serie.rules.toLowerCase();
+              const search = searchTerm.toLowerCase();
+              
+              return name.includes(search) || 
+                     description.includes(search) || 
+                     location.includes(search) ||
+                     rules.includes(search) ||
+                     serie.serieNumber.toString().includes(search);
+            }).length : series.length}
+          </p>
+        </div>
+        
+        <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
+          <h4 className="text-lg font-semibold text-slate-100 mb-2">Total Teams</h4>
+          <p className="text-3xl font-bold text-slate-100">
+            {series.reduce((total, serie) => total + serie.totalTeams, 0)}
+          </p>
+        </div>
+        
+        <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
+          <h4 className="text-lg font-semibold text-slate-100 mb-2">Total Matches</h4>
+          <p className="text-3xl font-bold text-slate-100">
+            {series.reduce((total, serie) => total + serie.totalMatches, 0)}
+          </p>
+        </div>
+      </div>
 
     </div>
   );

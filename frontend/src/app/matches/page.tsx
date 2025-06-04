@@ -13,6 +13,7 @@ export default function Matches() {
   const [error, setError] = useState<string | null>(null);
   const [selectedSerie, setSelectedSerie] = useState<number | null>(null);
   const [selectedMatch, setSelectedMatch] = useState<Match | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
   const searchParams = useSearchParams();
 
   // Helper function to generate video URL with timecode
@@ -105,30 +106,53 @@ export default function Matches() {
         <p className="text-slate-400">Competition match results</p>
       </div>
 
-      {/* Serie Selector */}
+      {/* Filters */}
       <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
-        <h3 className="text-lg font-semibold text-slate-100 mb-4">Select Serie</h3>
-        {seriesLoading ? (
-          <div className="flex justify-center items-center h-12">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-slate-400"></div>
+        <h3 className="text-lg font-semibold text-slate-100 mb-4">Filters</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Search */}
+          <div>
+            <label htmlFor="search" className="block text-sm font-medium text-slate-300 mb-2">
+              Search Matches
+            </label>
+            <input
+              type="text"
+              id="search"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Search by team name, stand, or match number..."
+              className="w-full px-3 py-2 border border-slate-600 bg-slate-700 text-slate-100 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent placeholder-slate-400"
+            />
           </div>
-        ) : (
-          <div className="flex flex-wrap gap-4">
-            {series.map((serie) => (
-              <button
-                key={serie.serieNumber}
-                onClick={() => setSelectedSerie(serie.serieNumber)}
-                className={`px-4 py-2 rounded-md font-medium transition-colors duration-200 ${
-                  selectedSerie === serie.serieNumber
-                    ? 'bg-slate-600 text-slate-100'
-                    : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-                }`}
-              >
-                Serie {serie.serieNumber}
-              </button>
-            ))}
+
+          {/* Serie Selector */}
+          <div>
+            <label htmlFor="serie" className="block text-sm font-medium text-slate-300 mb-2">
+              Select Serie
+            </label>
+            {seriesLoading ? (
+              <div className="flex justify-center items-center h-10">
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-slate-400"></div>
+              </div>
+            ) : (
+              <div className="flex flex-wrap gap-2">
+                {series.map((serie) => (
+                  <button
+                    key={serie.serieNumber}
+                    onClick={() => setSelectedSerie(serie.serieNumber)}
+                    className={`px-3 py-1 rounded-md font-medium transition-colors duration-200 ${
+                      selectedSerie === serie.serieNumber
+                        ? 'bg-slate-600 text-slate-100'
+                        : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                    }`}
+                  >
+                    Serie {serie.serieNumber}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
 
       {/* Matches Grid */}
@@ -138,12 +162,42 @@ export default function Matches() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {matches.length === 0 ? (
-            <div className="col-span-full text-center py-8 text-slate-400">
-              No matches available for Serie {selectedSerie}
-            </div>
-          ) : (
-            matches.map((match) => (
+          {(() => {
+            // Filter matches based on search term
+            const filteredMatches = matches.filter(match => {
+              const matchNumber = match.matchNumber.toString();
+              const team1Name = match.team1.name.toLowerCase();
+              const team2Name = match.team2.name.toLowerCase();
+              const team1Stand = match.team1.stand.toLowerCase();
+              const team2Stand = match.team2.stand.toLowerCase();
+              const search = searchTerm.toLowerCase();
+              
+              return matchNumber.includes(search) || 
+                     team1Name.includes(search) || 
+                     team2Name.includes(search) ||
+                     team1Stand.includes(search) ||
+                     team2Stand.includes(search);
+            });
+            
+            if (matches.length === 0) {
+              return (
+                <div className="col-span-full text-center py-8 text-slate-400">
+                  No matches available for Serie {selectedSerie}
+                </div>
+              );
+            }
+            
+            if (filteredMatches.length === 0) {
+              return (
+                <div className="col-span-full text-center py-12">
+                  <div className="text-slate-400 text-6xl mb-4">🔍</div>
+                  <h3 className="text-lg font-medium text-slate-100 mb-2">No matches found</h3>
+                  <p className="text-slate-400">Try adjusting your search criteria.</p>
+                </div>
+              );
+            }
+            
+            return filteredMatches.map((match) => (
               <div key={match._id} className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
                 <div className="flex justify-between items-center mb-4">
                   <span className="text-sm font-medium text-slate-400">Match #{match.matchNumber}</span>
@@ -243,16 +297,36 @@ export default function Matches() {
                   })()}
                 </div>
               </div>
-            ))
-          )}
+            ));
+          })()}
         </div>
       )}
 
       {/* Statistics */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
           <h4 className="text-lg font-semibold text-slate-100 mb-2">Total Matches</h4>
           <p className="text-3xl font-bold text-slate-100">{matches.length}</p>
+        </div>
+        
+        <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
+          <h4 className="text-lg font-semibold text-slate-100 mb-2">Filtered</h4>
+          <p className="text-3xl font-bold text-slate-100">
+            {searchTerm ? matches.filter(match => {
+              const matchNumber = match.matchNumber.toString();
+              const team1Name = match.team1.name.toLowerCase();
+              const team2Name = match.team2.name.toLowerCase();
+              const team1Stand = match.team1.stand.toLowerCase();
+              const team2Stand = match.team2.stand.toLowerCase();
+              const search = searchTerm.toLowerCase();
+              
+              return matchNumber.includes(search) || 
+                     team1Name.includes(search) || 
+                     team2Name.includes(search) ||
+                     team1Stand.includes(search) ||
+                     team2Stand.includes(search);
+            }).length : matches.length}
+          </p>
         </div>
         
         <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
