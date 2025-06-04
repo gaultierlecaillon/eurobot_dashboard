@@ -79,18 +79,18 @@ export default function Matches() {
   if (seriesLoading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-400"></div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="bg-red-50 border border-red-200 rounded-md p-4">
+      <div className="bg-red-900/20 border border-red-700 rounded-md p-4">
         <div className="flex">
           <div className="ml-3">
-            <h3 className="text-sm font-medium text-red-800">Error</h3>
-            <div className="mt-2 text-sm text-red-700">{error}</div>
+            <h3 className="text-sm font-medium text-red-300">Error</h3>
+            <div className="mt-2 text-sm text-red-200">{error}</div>
           </div>
         </div>
       </div>
@@ -100,17 +100,17 @@ export default function Matches() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-red-500 to-red-600 rounded-lg p-6 text-white">
-        <h1 className="text-3xl font-bold mb-2">⚔️ Matches</h1>
-        <p className="text-red-100">Competition match results</p>
+      <div className="bg-slate-800 rounded-lg p-6 border border-slate-700">
+        <h1 className="text-3xl font-bold mb-2 text-slate-100">⚔️ Matches</h1>
+        <p className="text-slate-400">Competition match results</p>
       </div>
 
       {/* Serie Selector */}
-      <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Select Serie</h3>
+      <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
+        <h3 className="text-lg font-semibold text-slate-100 mb-4">Select Serie</h3>
         {seriesLoading ? (
           <div className="flex justify-center items-center h-12">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-slate-400"></div>
           </div>
         ) : (
           <div className="flex flex-wrap gap-4">
@@ -120,8 +120,8 @@ export default function Matches() {
                 onClick={() => setSelectedSerie(serie.serieNumber)}
                 className={`px-4 py-2 rounded-md font-medium transition-colors duration-200 ${
                   selectedSerie === serie.serieNumber
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                    ? 'bg-slate-600 text-slate-100'
+                    : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
                 }`}
               >
                 Serie {serie.serieNumber}
@@ -134,20 +134,20 @@ export default function Matches() {
       {/* Matches Grid */}
       {loading ? (
         <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-slate-400"></div>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {matches.length === 0 ? (
-            <div className="col-span-full text-center py-8 text-gray-500">
+            <div className="col-span-full text-center py-8 text-slate-400">
               No matches available for Serie {selectedSerie}
             </div>
           ) : (
             matches.map((match) => (
-              <div key={match._id} className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
+              <div key={match._id} className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
                 <div className="flex justify-between items-center mb-4">
-                  <span className="text-sm font-medium text-gray-500">Match #{match.matchNumber}</span>
-                  <span className="text-sm text-gray-500">Serie {match.serie}</span>
+                  <span className="text-sm font-medium text-slate-400">Match #{match.matchNumber}</span>
+                  <span className="text-sm text-slate-400">Serie {match.serie}</span>
                 </div>
                 
                 <div className="space-y-4">
@@ -156,43 +156,43 @@ export default function Matches() {
                     <div className="flex-1">
                       <Link 
                         href={`/teams/${encodeURIComponent(match.team1.name)}`}
-                        className="font-medium text-gray-900 hover:text-blue-600 transition-colors duration-200 cursor-pointer"
+                        className="font-medium text-slate-100 hover:text-slate-300 transition-colors duration-200 cursor-pointer"
                       >
                         {match.team1.name}
                       </Link>
-                      <div className="text-sm text-gray-500">{match.team1.stand}</div>
+                      <div className="text-sm text-slate-400">{match.team1.stand}</div>
                     </div>
                     <div className={`text-2xl font-bold px-3 py-1 rounded ${
                       match.team1.score > match.team2.score 
-                        ? 'bg-green-100 text-green-800' 
+                        ? 'bg-green-900/50 text-green-300' 
                         : match.team1.score === match.team2.score
-                        ? 'bg-yellow-100 text-yellow-800'
-                        : 'bg-red-100 text-red-800'
+                        ? 'bg-yellow-900/50 text-yellow-300'
+                        : 'bg-red-900/50 text-red-300'
                     }`}>
                       {match.team1.score}
                     </div>
                   </div>
 
                   {/* VS Divider */}
-                  <div className="text-center text-gray-400 font-medium">VS</div>
+                  <div className="text-center text-slate-400 font-medium">VS</div>
 
                   {/* Team 2 */}
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
                       <Link 
                         href={`/teams/${encodeURIComponent(match.team2.name)}`}
-                        className="font-medium text-gray-900 hover:text-blue-600 transition-colors duration-200 cursor-pointer"
+                        className="font-medium text-slate-100 hover:text-slate-300 transition-colors duration-200 cursor-pointer"
                       >
                         {match.team2.name}
                       </Link>
-                      <div className="text-sm text-gray-500">{match.team2.stand}</div>
+                      <div className="text-sm text-slate-400">{match.team2.stand}</div>
                     </div>
                     <div className={`text-2xl font-bold px-3 py-1 rounded ${
                       match.team2.score > match.team1.score 
-                        ? 'bg-green-100 text-green-800' 
+                        ? 'bg-green-900/50 text-green-300' 
                         : match.team2.score === match.team1.score
-                        ? 'bg-yellow-100 text-yellow-800'
-                        : 'bg-red-100 text-red-800'
+                        ? 'bg-yellow-900/50 text-yellow-300'
+                        : 'bg-red-900/50 text-red-300'
                     }`}>
                       {match.team2.score}
                     </div>
@@ -200,10 +200,10 @@ export default function Matches() {
                 </div>
 
                 {/* Match Result */}
-                <div className="mt-4 pt-4 border-t border-gray-200">
+                <div className="mt-4 pt-4 border-t border-slate-700">
                   <div className="text-center">
                     {match.team1.score > match.team2.score ? (
-                      <span className="text-green-600 font-medium">
+                      <span className="text-green-400 font-medium">
                         🏆 <Link 
                           href={`/teams/${encodeURIComponent(match.team1.name)}`}
                           className="hover:underline"
@@ -212,7 +212,7 @@ export default function Matches() {
                         </Link> wins!
                       </span>
                     ) : match.team2.score > match.team1.score ? (
-                      <span className="text-green-600 font-medium">
+                      <span className="text-green-400 font-medium">
                         🏆 <Link 
                           href={`/teams/${encodeURIComponent(match.team2.name)}`}
                           className="hover:underline"
@@ -221,7 +221,7 @@ export default function Matches() {
                         </Link> wins!
                       </span>
                     ) : (
-                      <span className="text-yellow-600 font-medium">🤝 Draw</span>
+                      <span className="text-yellow-400 font-medium">🤝 Draw</span>
                     )}
                   </div>
                   
@@ -234,7 +234,7 @@ export default function Matches() {
                       <div className="mt-3">
                         <button
                           onClick={() => setSelectedMatch(match)}
-                          className="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200 flex items-center justify-center gap-2"
+                          className="w-full bg-slate-600 hover:bg-slate-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200 flex items-center justify-center gap-2"
                         >
                           🎥 Watch Match (at {Math.floor(match.timecode / 60)}:{(match.timecode % 60).toString().padStart(2, '0')})
                         </button>
@@ -250,21 +250,21 @@ export default function Matches() {
 
       {/* Statistics */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-          <h4 className="text-lg font-semibold text-gray-900 mb-2">Total Matches</h4>
-          <p className="text-3xl font-bold text-blue-600">{matches.length}</p>
+        <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
+          <h4 className="text-lg font-semibold text-slate-100 mb-2">Total Matches</h4>
+          <p className="text-3xl font-bold text-slate-100">{matches.length}</p>
         </div>
         
-        <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-          <h4 className="text-lg font-semibold text-gray-900 mb-2">Highest Score</h4>
-          <p className="text-3xl font-bold text-green-600">
+        <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
+          <h4 className="text-lg font-semibold text-slate-100 mb-2">Highest Score</h4>
+          <p className="text-3xl font-bold text-slate-100">
             {matches.length > 0 ? Math.max(...matches.flatMap(m => [m.team1.score, m.team2.score])) : 0}
           </p>
         </div>
         
-        <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-          <h4 className="text-lg font-semibold text-gray-900 mb-2">Average Score</h4>
-          <p className="text-3xl font-bold text-purple-600">
+        <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
+          <h4 className="text-lg font-semibold text-slate-100 mb-2">Average Score</h4>
+          <p className="text-3xl font-bold text-slate-100">
             {matches.length > 0 ? 
               Math.round(matches.reduce((sum, m) => sum + m.team1.score + m.team2.score, 0) / (matches.length * 2)) : 0}
           </p>
