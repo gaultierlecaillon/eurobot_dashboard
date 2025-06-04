@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { apiService, Serie } from '@/lib/api';
 
 const SeriesPage = () => {
@@ -135,6 +136,17 @@ const SeriesPage = () => {
                         <h3 className="text-sm font-medium text-gray-500">Rules</h3>
                         <p className="text-gray-900">{serie.rules}</p>
                       </div>
+                    </div>
+                    
+                    {/* View Matches Button */}
+                    <div className="mt-6">
+                      <Link
+                        href={`/matches?serie=${serie.serieNumber}`}
+                        className="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+                      >
+                        <span className="mr-2">⚔️</span>
+                        View Matches
+                      </Link>
                     </div>
                   </div>
                   

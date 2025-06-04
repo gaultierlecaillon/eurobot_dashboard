@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { apiService, Match, Serie } from '@/lib/api';
 
 export default function Matches() {
@@ -12,6 +13,7 @@ export default function Matches() {
   const [error, setError] = useState<string | null>(null);
   const [selectedSerie, setSelectedSerie] = useState<number | null>(null);
   const [selectedMatch, setSelectedMatch] = useState<Match | null>(null);
+  const searchParams = useSearchParams();
 
   // Helper function to generate video URL with timecode
   const getVideoUrlWithTimecode = (match: Match, serie: Serie) => {
@@ -29,8 +31,18 @@ export default function Matches() {
       setSeriesLoading(true);
       const response = await apiService.getSeries();
       setSeries(response.data);
-      // Set default selected serie to the first available serie
-      if (response.data.length > 0 && selectedSerie === null) {
+      
+      // Check for serie parameter in URL
+      const serieParam = searchParams.get('serie');
+      if (serieParam && selectedSerie === null) {
+        const serieNumber = parseInt(serieParam, 10);
+        if (!isNaN(serieNumber) && response.data.some(s => s.serieNumber === serieNumber)) {
+          setSelectedSerie(serieNumber);
+        } else if (response.data.length > 0) {
+          setSelectedSerie(response.data[0].serieNumber);
+        }
+      } else if (response.data.length > 0 && selectedSerie === null) {
+        // Set default selected serie to the first available serie
         setSelectedSerie(response.data[0].serieNumber);
       }
     } catch (err) {
@@ -39,7 +51,7 @@ export default function Matches() {
     } finally {
       setSeriesLoading(false);
     }
-  }, [selectedSerie]);
+  }, [selectedSerie, searchParams]);
 
   const fetchMatches = useCallback(async () => {
     if (selectedSerie === null) return;
