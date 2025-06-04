@@ -290,7 +290,7 @@ export default function Matches() {
                           onClick={() => setSelectedMatch(match)}
                           className="w-full bg-slate-600 hover:bg-slate-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200 flex items-center justify-center gap-2"
                         >
-                          🎥 Watch Match (at {Math.floor(match.timecode / 60)}:{(match.timecode % 60).toString().padStart(2, '0')})
+                          <span className="mr-1">🎥</span> Watch Match
                         </button>
                       </div>
                     ) : null;
@@ -351,7 +351,7 @@ export default function Matches() {
         const videoUrl = currentSerie ? getVideoUrlWithTimecode(selectedMatch, currentSerie) : null;
         
         return videoUrl ? (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 bg-transparent backdrop-blur-sm flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-auto">
               <div className="p-6">
                 <div className="flex justify-between items-center mb-4">
