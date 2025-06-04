@@ -176,6 +176,18 @@ function parseMatchCSV(filePath) {
         rawData.forEach((row) => {
           const rowLength = Object.keys(row).length;
           if (rowLength >= 7) {
+            // Handle timecode - take the first one if multiple are provided
+            let timecode = null;
+            if (row['7']) {
+              const timecodeStr = row['7'].toString().trim();
+              if (timecodeStr) {
+                // Split by semicolon and take the first timecode
+                const timecodes = timecodeStr.split(';');
+                const firstTimecode = parseInt(timecodes[0]);
+                timecode = !isNaN(firstTimecode) ? firstTimecode : null;
+              }
+            }
+            
             const parsed = {
               matchNumber: parseInt(row['0']),
               team1Stand: row['1'],
@@ -183,7 +195,8 @@ function parseMatchCSV(filePath) {
               team1Score: parseInt(row['3']),
               team2Score: parseInt(row['4']),
               team2Name: row['5'],
-              team2Stand: row['6']
+              team2Stand: row['6'],
+              timecode: timecode
             };
             results.push(parsed);
           }
@@ -204,20 +217,29 @@ async function seedMatches() {
     console.log(`Processing matches from serie ${serie}...`);
     const data = await parseMatchCSV(filePath);
     
-    const matches = data.map(row => ({
-      matchNumber: row.matchNumber,
-      serie: serie,
-      team1: {
-        name: row.team1Name ? row.team1Name.trim() : '',
-        stand: row.team1Stand ? row.team1Stand.trim() : '',
-        score: row.team1Score || 0
-      },
-      team2: {
-        name: row.team2Name ? row.team2Name.trim() : '',
-        stand: row.team2Stand ? row.team2Stand.trim() : '',
-        score: row.team2Score || 0
+    const matches = data.map(row => {
+      const match = {
+        matchNumber: row.matchNumber,
+        serie: serie,
+        team1: {
+          name: row.team1Name ? row.team1Name.trim() : '',
+          stand: row.team1Stand ? row.team1Stand.trim() : '',
+          score: row.team1Score || 0
+        },
+        team2: {
+          name: row.team2Name ? row.team2Name.trim() : '',
+          stand: row.team2Stand ? row.team2Stand.trim() : '',
+          score: row.team2Score || 0
+        }
+      };
+      
+      // Add timecode if present
+      if (row.timecode !== null && row.timecode !== undefined) {
+        match.timecode = row.timecode;
       }
-    })).filter(match => 
+      
+      return match;
+    }).filter(match => 
       !isNaN(match.matchNumber) && 
       match.team1.name && 
       match.team2.name &&

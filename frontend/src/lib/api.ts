@@ -56,6 +56,7 @@ export interface Match {
     stand: string;
     score: number;
   };
+  timecode?: number;
   createdAt: string;
   updatedAt: string;
 }

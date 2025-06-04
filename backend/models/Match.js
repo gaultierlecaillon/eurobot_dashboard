@@ -18,6 +18,10 @@ const matchSchema = new mongoose.Schema({
     name: { type: String, required: true },
     stand: { type: String, required: true },
     score: { type: Number, required: true }
+  },
+  timecode: {
+    type: Number,
+    required: false
   }
 }, {
   timestamps: true

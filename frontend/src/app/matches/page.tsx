@@ -11,6 +11,18 @@ export default function Matches() {
   const [seriesLoading, setSeriesLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedSerie, setSelectedSerie] = useState<number | null>(null);
+  const [selectedMatch, setSelectedMatch] = useState<Match | null>(null);
+
+  // Helper function to generate video URL with timecode
+  const getVideoUrlWithTimecode = (match: Match, serie: Serie) => {
+    if (!match.timecode || !serie.liveStreamUrl) return null;
+    
+    // Check if the URL already has parameters
+    const hasParams = serie.liveStreamUrl.includes('?');
+    const separator = hasParams ? '&' : '?';
+    
+    return `${serie.liveStreamUrl}${separator}start=${match.timecode}`;
+  };
 
   const fetchSeries = useCallback(async () => {
     try {
@@ -200,6 +212,23 @@ export default function Matches() {
                       <span className="text-yellow-600 font-medium">🤝 Draw</span>
                     )}
                   </div>
+                  
+                  {/* Watch Video Button */}
+                  {match.timecode && (() => {
+                    const currentSerie = series.find(s => s.serieNumber === match.serie);
+                    const videoUrl = currentSerie ? getVideoUrlWithTimecode(match, currentSerie) : null;
+                    
+                    return videoUrl ? (
+                      <div className="mt-3">
+                        <button
+                          onClick={() => setSelectedMatch(match)}
+                          className="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200 flex items-center justify-center gap-2"
+                        >
+                          🎥 Watch Match (at {Math.floor(match.timecode / 60)}:{(match.timecode % 60).toString().padStart(2, '0')})
+                        </button>
+                      </div>
+                    ) : null;
+                  })()}
                 </div>
               </div>
             ))
@@ -229,6 +258,59 @@ export default function Matches() {
           </p>
         </div>
       </div>
+
+      {/* Video Modal */}
+      {selectedMatch && (() => {
+        const currentSerie = series.find(s => s.serieNumber === selectedMatch.serie);
+        const videoUrl = currentSerie ? getVideoUrlWithTimecode(selectedMatch, currentSerie) : null;
+        
+        return videoUrl ? (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-auto">
+              <div className="p-6">
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-xl font-bold text-gray-900">
+                    Match #{selectedMatch.matchNumber} - Serie {selectedMatch.serie}
+                  </h3>
+                  <button
+                    onClick={() => setSelectedMatch(null)}
+                    className="text-gray-400 hover:text-gray-600 text-2xl font-bold"
+                  >
+                    ×
+                  </button>
+                </div>
+                
+                <div className="mb-4">
+                  <div className="flex justify-between items-center text-sm text-gray-600 mb-2">
+                    <span>{selectedMatch.team1.name} ({selectedMatch.team1.stand})</span>
+                    <span className="font-bold">
+                      {selectedMatch.team1.score} - {selectedMatch.team2.score}
+                    </span>
+                    <span>{selectedMatch.team2.name} ({selectedMatch.team2.stand})</span>
+                  </div>
+                  <p className="text-sm text-gray-500 text-center">
+                    Starting at {Math.floor(selectedMatch.timecode! / 60)}:{(selectedMatch.timecode! % 60).toString().padStart(2, '0')}
+                  </p>
+                </div>
+                
+                <div className="aspect-video">
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    src={videoUrl}
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                    className="rounded-md"
+                  ></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : null;
+      })()}
     </div>
   );
 }
