@@ -36,9 +36,9 @@ const SeriesPage = () => {
 
   const getStatusBadge = (status: string) => {
     const statusColors = {
-      upcoming: 'bg-yellow-100 text-yellow-800',
-      ongoing: 'bg-green-100 text-green-800',
-      completed: 'bg-gray-100 text-gray-800'
+      upcoming: 'bg-yellow-900/50 text-yellow-300',
+      ongoing: 'bg-green-900/50 text-green-300',
+      completed: 'bg-slate-700 text-slate-300'
     };
 
     return (
@@ -52,7 +52,7 @@ const SeriesPage = () => {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-400"></div>
         </div>
       </div>
     );
@@ -61,7 +61,7 @@ const SeriesPage = () => {
   if (error) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+        <div className="bg-red-900/20 border border-red-700 text-red-200 px-4 py-3 rounded">
           <strong className="font-bold">Error!</strong>
           <span className="block sm:inline"> {error}</span>
         </div>
@@ -73,47 +73,47 @@ const SeriesPage = () => {
     <div className="container mx-auto px-4 py-8">
       {/* Clean Header Section */}
       <div className="mb-8">
-        <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg p-6 text-white shadow-md">
+        <div className="bg-gradient-to-r from-purple-600 to-violet-700 rounded-lg p-6 text-white shadow-md">
           <h1 className="text-3xl font-bold mb-2">📋 Competition Series</h1>
-          <p className="text-blue-100">Overview of all Eurobot competition series</p>
+          <p className="text-purple-100">Overview of all Eurobot competition series</p>
         </div>
         
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-          <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
+          <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
             <div className="flex items-center">
-              <div className="p-3 rounded-full bg-blue-100 text-blue-600">
+              <div className="p-3 rounded-full bg-purple-900/50 text-purple-400">
                 <span className="text-2xl">📊</span>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Total Series</p>
-                <p className="text-2xl font-semibold text-gray-900">{series.length}</p>
+                <p className="text-sm font-medium text-slate-400">Total Series</p>
+                <p className="text-2xl font-semibold text-slate-100">{series.length}</p>
               </div>
             </div>
           </div>
           
-          <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
+          <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
             <div className="flex items-center">
-              <div className="p-3 rounded-full bg-green-100 text-green-600">
+              <div className="p-3 rounded-full bg-violet-900/50 text-violet-400">
                 <span className="text-2xl">🤖</span>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Total Teams</p>
-                <p className="text-2xl font-semibold text-gray-900">
+                <p className="text-sm font-medium text-slate-400">Total Teams</p>
+                <p className="text-2xl font-semibold text-slate-100">
                   {series.reduce((total, serie) => total + serie.totalTeams, 0)}
                 </p>
               </div>
             </div>
           </div>
           
-          <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
+          <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
             <div className="flex items-center">
-              <div className="p-3 rounded-full bg-purple-100 text-purple-600">
+              <div className="p-3 rounded-full bg-indigo-900/50 text-indigo-400">
                 <span className="text-2xl">⚔️</span>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Total Matches</p>
-                <p className="text-2xl font-semibold text-gray-900">
+                <p className="text-sm font-medium text-slate-400">Total Matches</p>
+                <p className="text-2xl font-semibold text-slate-100">
                   {series.reduce((total, serie) => total + serie.totalMatches, 0)}
                 </p>
               </div>
@@ -124,24 +124,24 @@ const SeriesPage = () => {
 
       {series.length === 0 ? (
         <div className="text-center py-12">
-          <div className="text-gray-500 text-lg">No series found</div>
-          <p className="text-gray-400 mt-2">Series data will appear here once available.</p>
+          <div className="text-slate-400 text-lg">No series found</div>
+          <p className="text-slate-500 mt-2">Series data will appear here once available.</p>
         </div>
       ) : (
         <div className="space-y-8">
           {series.map((serie) => (
-            <div key={serie._id} className="bg-white shadow-lg rounded-lg overflow-hidden">
-              <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-4">
+            <div key={serie._id} className="bg-slate-800 shadow-lg rounded-lg overflow-hidden border border-slate-700">
+              <div className="bg-gradient-to-r from-purple-500 to-violet-600 px-6 py-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <div className="h-12 w-12 rounded-full bg-blue-100 bg-opacity-20 flex items-center justify-center">
-                      <span className="text-black font-bold text-lg">
+                    <div className="h-12 w-12 rounded-full bg-purple-100 bg-opacity-20 flex items-center justify-center">
+                      <span className="text-white font-bold text-lg">
                         {serie.serieNumber}
                       </span>
                     </div>
                     <div>
                       <h2 className="text-xl font-bold text-white">{serie.name}</h2>
-                      <p className="text-blue-100">{serie.description}</p>
+                      <p className="text-purple-100">{serie.description}</p>
                     </div>
                   </div>
                   <div className="text-right">
@@ -155,32 +155,32 @@ const SeriesPage = () => {
                   {/* Serie Information */}
                   <div className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
-                      <div className="bg-gray-50 p-4 rounded-lg">
-                        <div className="text-2xl font-bold text-gray-900">{serie.totalTeams}</div>
-                        <div className="text-sm text-gray-500">Teams</div>
+                      <div className="bg-slate-700/50 p-4 rounded-lg">
+                        <div className="text-2xl font-bold text-slate-100">{serie.totalTeams}</div>
+                        <div className="text-sm text-slate-400">Teams</div>
                       </div>
-                      <div className="bg-gray-50 p-4 rounded-lg">
-                        <div className="text-2xl font-bold text-gray-900">{serie.totalMatches}</div>
-                        <div className="text-sm text-gray-500">Matches</div>
+                      <div className="bg-slate-700/50 p-4 rounded-lg">
+                        <div className="text-2xl font-bold text-slate-100">{serie.totalMatches}</div>
+                        <div className="text-sm text-slate-400">Matches</div>
                       </div>
                     </div>
                     
                     <div className="space-y-3">
                       <div>
-                        <h3 className="text-sm font-medium text-gray-500">Duration</h3>
-                        <p className="text-gray-900">
+                        <h3 className="text-sm font-medium text-slate-400">Duration</h3>
+                        <p className="text-slate-100">
                           {formatDate(serie.startDate)} - {formatDate(serie.endDate)}
                         </p>
                       </div>
                       
                       <div>
-                        <h3 className="text-sm font-medium text-gray-500">Location</h3>
-                        <p className="text-gray-900">{serie.location}</p>
+                        <h3 className="text-sm font-medium text-slate-400">Location</h3>
+                        <p className="text-slate-100">{serie.location}</p>
                       </div>
                       
                       <div>
-                        <h3 className="text-sm font-medium text-gray-500">Rules</h3>
-                        <p className="text-gray-900">{serie.rules}</p>
+                        <h3 className="text-sm font-medium text-slate-400">Rules</h3>
+                        <p className="text-slate-100">{serie.rules}</p>
                       </div>
                     </div>
                     
@@ -188,7 +188,7 @@ const SeriesPage = () => {
                     <div className="mt-6">
                       <Link
                         href={`/matches?serie=${serie.serieNumber}`}
-                        className="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+                        className="inline-flex items-center px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
                       >
                         <span className="mr-2">⚔️</span>
                         View Matches
@@ -198,7 +198,7 @@ const SeriesPage = () => {
                   
                   {/* Live Stream Video */}
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Live Stream</h3>
+                    <h3 className="text-lg font-semibold text-slate-100 mb-4">Live Stream</h3>
                     {serie.liveStreamUrl ? (
                       <div className="aspect-video">
                         <iframe
@@ -214,10 +214,10 @@ const SeriesPage = () => {
                         ></iframe>
                       </div>
                     ) : (
-                      <div className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center">
+                      <div className="aspect-video bg-slate-700/50 rounded-lg flex items-center justify-center">
                         <div className="text-center">
-                          <div className="text-gray-400 text-lg mb-2">📹</div>
-                          <p className="text-gray-500">No live stream available</p>
+                          <div className="text-slate-400 text-lg mb-2">📹</div>
+                          <p className="text-slate-400">No live stream available</p>
                         </div>
                       </div>
                     )}
