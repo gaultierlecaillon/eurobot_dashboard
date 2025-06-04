@@ -30,7 +30,7 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-400"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-400"></div>
       </div>
     );
   }
@@ -51,16 +51,16 @@ export default function Dashboard() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg p-6 text-white">
-        <h1 className="text-3xl font-bold mb-2">Eurobot 2025 Dashboard</h1>
-        <p className="text-blue-100">Competition overview and statistics</p>
+      <div className="bg-slate-800 rounded-lg p-6 border border-slate-700">
+        <h1 className="text-3xl font-bold mb-2 text-slate-100">Eurobot 2025 Dashboard</h1>
+        <p className="text-slate-400">Competition overview and statistics</p>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
           <div className="flex items-center">
-            <div className="p-3 rounded-full bg-blue-900/50 text-blue-400">
+            <div className="p-3 rounded-full bg-slate-700 text-slate-300">
               <span className="text-2xl">🤖</span>
             </div>
             <div className="ml-4">
@@ -72,7 +72,7 @@ export default function Dashboard() {
 
         <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
           <div className="flex items-center">
-            <div className="p-3 rounded-full bg-green-900/50 text-green-400">
+            <div className="p-3 rounded-full bg-slate-700 text-slate-300">
               <span className="text-2xl">⚔️</span>
             </div>
             <div className="ml-4">
@@ -84,7 +84,7 @@ export default function Dashboard() {
 
         <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
           <div className="flex items-center">
-            <div className="p-3 rounded-full bg-yellow-900/50 text-yellow-400">
+            <div className="p-3 rounded-full bg-slate-700 text-slate-300">
               <span className="text-2xl">🏆</span>
             </div>
             <div className="ml-4">
@@ -96,7 +96,7 @@ export default function Dashboard() {
 
         <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
           <div className="flex items-center">
-            <div className="p-3 rounded-full bg-purple-900/50 text-purple-400">
+            <div className="p-3 rounded-full bg-slate-700 text-slate-300">
               <span className="text-2xl">🎯</span>
             </div>
             <div className="ml-4">

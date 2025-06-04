@@ -52,7 +52,7 @@ const SeriesPage = () => {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-400"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-400"></div>
         </div>
       </div>
     );
@@ -73,16 +73,16 @@ const SeriesPage = () => {
     <div className="container mx-auto px-4 py-8">
       {/* Clean Header Section */}
       <div className="mb-8">
-        <div className="bg-gradient-to-r from-purple-600 to-violet-700 rounded-lg p-6 text-white shadow-md">
-          <h1 className="text-3xl font-bold mb-2">📋 Competition Series</h1>
-          <p className="text-purple-100">Overview of all Eurobot competition series</p>
+        <div className="bg-slate-800 rounded-lg p-6 border border-slate-700 shadow-md">
+          <h1 className="text-3xl font-bold mb-2 text-slate-100">📋 Competition Series</h1>
+          <p className="text-slate-400">Overview of all Eurobot competition series</p>
         </div>
         
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
           <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
             <div className="flex items-center">
-              <div className="p-3 rounded-full bg-purple-900/50 text-purple-400">
+              <div className="p-3 rounded-full bg-slate-700 text-slate-300">
                 <span className="text-2xl">📊</span>
               </div>
               <div className="ml-4">
@@ -94,7 +94,7 @@ const SeriesPage = () => {
           
           <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
             <div className="flex items-center">
-              <div className="p-3 rounded-full bg-violet-900/50 text-violet-400">
+              <div className="p-3 rounded-full bg-slate-700 text-slate-300">
                 <span className="text-2xl">🤖</span>
               </div>
               <div className="ml-4">
@@ -108,7 +108,7 @@ const SeriesPage = () => {
           
           <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
             <div className="flex items-center">
-              <div className="p-3 rounded-full bg-indigo-900/50 text-indigo-400">
+              <div className="p-3 rounded-full bg-slate-700 text-slate-300">
                 <span className="text-2xl">⚔️</span>
               </div>
               <div className="ml-4">
@@ -131,17 +131,17 @@ const SeriesPage = () => {
         <div className="space-y-8">
           {series.map((serie) => (
             <div key={serie._id} className="bg-slate-800 shadow-lg rounded-lg overflow-hidden border border-slate-700">
-              <div className="bg-gradient-to-r from-purple-500 to-violet-600 px-6 py-4">
+              <div className="bg-slate-700 px-6 py-4 border-b border-slate-600">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <div className="h-12 w-12 rounded-full bg-purple-100 bg-opacity-20 flex items-center justify-center">
-                      <span className="text-white font-bold text-lg">
+                    <div className="h-12 w-12 rounded-full bg-slate-600 flex items-center justify-center">
+                      <span className="text-slate-100 font-bold text-lg">
                         {serie.serieNumber}
                       </span>
                     </div>
                     <div>
-                      <h2 className="text-xl font-bold text-white">{serie.name}</h2>
-                      <p className="text-purple-100">{serie.description}</p>
+                      <h2 className="text-xl font-bold text-slate-100">{serie.name}</h2>
+                      <p className="text-slate-300">{serie.description}</p>
                     </div>
                   </div>
                   <div className="text-right">
@@ -188,7 +188,7 @@ const SeriesPage = () => {
                     <div className="mt-6">
                       <Link
                         href={`/matches?serie=${serie.serieNumber}`}
-                        className="inline-flex items-center px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+                        className="inline-flex items-center px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white font-medium rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
                       >
                         <span className="mr-2">⚔️</span>
                         View Matches
