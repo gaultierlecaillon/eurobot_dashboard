@@ -93,6 +93,18 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
+
+        <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
+          <div className="flex items-center">
+            <div className="p-3 rounded-full bg-purple-100 text-purple-600">
+              <span className="text-2xl">🎯</span>
+            </div>
+            <div className="ml-4">
+              <p className="text-sm font-medium text-gray-600">Total Points Scored</p>
+              <p className="text-2xl font-semibold text-gray-900">{stats?.totalPointsScored || 0}</p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Charts */}

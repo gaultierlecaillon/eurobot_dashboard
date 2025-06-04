@@ -246,6 +246,17 @@ app.get('/api/stats', async (req, res) => {
     const totalRankings = await Ranking.countDocuments();
     const totalSeries = await Serie.countDocuments();
     
+    // Calculate total points scored across all matches
+    const totalPointsResult = await Match.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalPoints: { $sum: { $add: ['$team1.score', '$team2.score'] } }
+        }
+      }
+    ]);
+    const totalPointsScored = totalPointsResult.length > 0 ? totalPointsResult[0].totalPoints : 0;
+    
     const matchesBySerie = await Match.aggregate([
       { $group: { _id: '$serie', count: { $sum: 1 } } },
       { $sort: { _id: 1 } }
@@ -269,6 +280,7 @@ app.get('/api/stats', async (req, res) => {
       totalMatches,
       totalRankings,
       totalSeries,
+      totalPointsScored,
       matchesBySerie,
       topTeams,
       lastKnownSerie

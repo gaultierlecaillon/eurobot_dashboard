@@ -109,6 +109,7 @@ export interface Stats {
   totalMatches: number;
   totalRankings: number;
   totalSeries: number;
+  totalPointsScored: number;
   matchesBySerie: Array<{ _id: number; count: number }>;
   topTeams: Ranking[];
   lastKnownSerie: number;
