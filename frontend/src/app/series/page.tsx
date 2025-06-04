@@ -71,9 +71,55 @@ const SeriesPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      {/* Clean Header Section */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Competition Series</h1>
-        <p className="text-gray-600">Overview of all Eurobot competition series</p>
+        <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg p-6 text-white shadow-md">
+          <h1 className="text-3xl font-bold mb-2">📋 Competition Series</h1>
+          <p className="text-blue-100">Overview of all Eurobot competition series</p>
+        </div>
+        
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+          <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
+            <div className="flex items-center">
+              <div className="p-3 rounded-full bg-blue-100 text-blue-600">
+                <span className="text-2xl">📊</span>
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-600">Total Series</p>
+                <p className="text-2xl font-semibold text-gray-900">{series.length}</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
+            <div className="flex items-center">
+              <div className="p-3 rounded-full bg-green-100 text-green-600">
+                <span className="text-2xl">🤖</span>
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-600">Total Teams</p>
+                <p className="text-2xl font-semibold text-gray-900">
+                  {series.reduce((total, serie) => total + serie.totalTeams, 0)}
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
+            <div className="flex items-center">
+              <div className="p-3 rounded-full bg-purple-100 text-purple-600">
+                <span className="text-2xl">⚔️</span>
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-600">Total Matches</p>
+                <p className="text-2xl font-semibold text-gray-900">
+                  {series.reduce((total, serie) => total + serie.totalMatches, 0)}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       {series.length === 0 ? (
@@ -88,8 +134,8 @@ const SeriesPage = () => {
               <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <div className="h-12 w-12 rounded-full bg-white bg-opacity-20 flex items-center justify-center">
-                      <span className="text-white font-bold text-lg">
+                    <div className="h-12 w-12 rounded-full bg-blue-100 bg-opacity-20 flex items-center justify-center">
+                      <span className="text-black font-bold text-lg">
                         {serie.serieNumber}
                       </span>
                     </div>
