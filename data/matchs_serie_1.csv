@@ -1,39 +1,39 @@
-﻿#;Stand;Équipe 1;Score;Stand;Équipe 2;
-1;M5;Metal Pipe;9;81;Mars Attacks!;A7
-2;G12;Les brasseurs d’idées;45;29;Pokibot;M1
-3;C9;Club Tech CentraleSupélec;65;48;Roboticam Vendée;B4
-4;H11;LYCEE DE L’ARC SI ARC-BOT;37;31;Riombotique;D1
-5;K18;Robot Club Toulon;61;43;Opossums;K19
-6;C12;UniGaffr;41;114;Robot ESEO;P5
-7;B6;TeamDiff;100;1;UniWIP;H9
-8;M12;IUT_Nice;29;1;IZARRA;M8
-9;C18;Les Karibelles;38;44;UniDucks;H4
-10;R2;PinMode;0;70;CRAC1;K12
-12;E11;Breizh Bot;51;51;Sartroubot;K17
-13;H6;CRENIM;1;5;CRLG;P13
-14;M14;EsialRobotik;66;52;coc’otter;L3
-15;M6;ARC;0;9;Robooh (ENSIL-ENSCI);G3
-16;G11;Asso R2T2;37;53;Ze Crazy Team;N4
-17;C17;Les Karibous;110;21;HARPers;M13
-18;A2;Coffee Machine;95;81;SUDRIABOTIK;M11
-19;C6;Mécapi;71;128;Club Tech RED;C10
-20;E3;OverTheRainBot Ense3;1;25;Roboticam Vendée 2;B5
-21;G9;DaVinciBot;47;35;Evolutek;B1
-22;A10;MiAM Robotique;47;0;CRIG-1;G7
-23;G8;CRIG-2;57;100;Rocking Giraffe Robotics;C11
-24;H1;Robotronik PHELMA;20;0;Nantrobot;P12
-25;C13;TDS-Team Robotique 72;111;63;Krabi;C7
-26;E10;7Robot;132;72;Kameleon;M2
-27;A1;Goldorak;39;65;SiERA;E2
-28;K11;VRAC;134;64;Enac Robotique;K8
-29;E5;R3EA;20;0;Eceborg;B3
-30;K3;Ares ENSEA;34;168;RCVA;E9
-31;P8;ARIG;53;92;COGIP;A9
-32;P6;Zest Machine;43;11;Tuxae;K14
-35;A3;PM-ROBOTIX;81;22;Eirbot;M3
-36;K15;Eigstatix;36;57;ChampiCircuits;E8
-37;k7;E.S.C.Ro.C.S.;51;79;École Iféa;H10
-38;A11;EagleTech;13;31;A cappella (Sikula Robotik);A4
-39;C5;Lab Sciren Robotics;24;9;Projet & Tech’;L2
-41;C1;Team Chat Robotique;29;49;UTCoupe;E7
-42;G2;Lucid;84;64;Edog&Leo;A8
+﻿#;Stand;Équipe 1;Score;;Équipe 2;Stand;timecode
+1;M5;Metal Pipe;9;81;Mars Attacks!;A7;
+2;G12;Les brasseurs d’idées;45;29;Pokibot;M1;
+3;C9;Club Tech CentraleSupélec;65;48;Roboticam Vendée;B4;
+4;H11;LYCEE DE L’ARC SI ARC-BOT;37;31;Riombotique;D1;
+5;K18;Robot Club Toulon;61;43;Opossums;K19;
+6;C12;UniGaffr;41;114;Robot ESEO;P5;
+7;B6;TeamDiff;100;1;UniWIP;H9;
+8;M12;IUT_Nice;29;1;IZARRA;M8;
+9;C18;Les Karibelles;38;44;UniDucks;H4;
+10;R2;PinMode;0;70;CRAC1;K12;
+12;E11;Breizh Bot;51;51;Sartroubot;K17;
+13;H6;CRENIM;1;5;CRLG;P13;
+14;M14;EsialRobotik;66;52;coc’otter;L3;
+15;M6;ARC;0;9;Robooh (ENSIL-ENSCI);G3;
+16;G11;Asso R2T2;37;53;Ze Crazy Team;N4;
+17;C17;Les Karibous;110;21;HARPers;M13;
+18;A2;Coffee Machine;95;81;SUDRIABOTIK;M11;
+19;C6;Mécapi;71;128;Club Tech RED;C10;
+20;E3;OverTheRainBot Ense3;1;25;Roboticam Vendée 2;B5;
+21;G9;DaVinciBot;47;35;Evolutek;B1;
+22;A10;MiAM Robotique;47;0;CRIG-1;G7;
+23;G8;CRIG-2;57;100;Rocking Giraffe Robotics;C11;
+24;H1;Robotronik PHELMA;20;0;Nantrobot;P12;
+25;C13;TDS-Team Robotique 72;111;63;Krabi;C7;
+26;E10;7Robot;132;72;Kameleon;M2;
+27;A1;Goldorak;39;65;SiERA;E2;
+28;K11;VRAC;134;64;Enac Robotique;K8;
+29;E5;R3EA;20;0;Eceborg;B3;
+30;K3;Ares ENSEA;34;168;RCVA;E9;
+31;P8;ARIG;53;92;COGIP;A9;
+32;P6;Zest Machine;43;11;Tuxae;K14;
+35;A3;PM-ROBOTIX;81;22;Eirbot;M3;
+36;K15;Eigstatix;36;57;ChampiCircuits;E8;
+37;k7;E.S.C.Ro.C.S.;51;79;École Iféa;H10;
+38;A11;EagleTech;13;31;A cappella (Sikula Robotik);A4;
+39;C5;Lab Sciren Robotics;24;9;Projet & Tech’;L2;
+41;C1;Team Chat Robotique;29;49;UTCoupe;E7;
+42;G2;Lucid;84;64;Edog&Leo;A8;
