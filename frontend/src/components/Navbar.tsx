@@ -13,6 +13,7 @@ const Navbar = () => {
     { path: '/rankings', label: 'Rankings', icon: '🏆' },
     { path: '/matches', label: 'Matches', icon: '⚔️' },
     { path: '/teams', label: 'Teams', icon: '🤖' },
+    { path: '/edition-2025', label: 'Edition 2025', icon: '🏁' },
   ];
 
   const isActive = (path: string) => pathname === path;
