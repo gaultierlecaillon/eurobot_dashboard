@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import { apiService, Match, Team, Serie } from '@/lib/api';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { apiService, Match, Team, Serie, Ranking } from '@/lib/api';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
 export default function TeamDetail() {
   const params = useParams();
@@ -14,6 +14,7 @@ export default function TeamDetail() {
   const [matches, setMatches] = useState<Match[]>([]);
   const [team, setTeam] = useState<Team | null>(null);
   const [series, setSeries] = useState<Serie[]>([]);
+  const [rankings, setRankings] = useState<Ranking[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedMatch, setSelectedMatch] = useState<Match | null>(null);
@@ -49,6 +50,10 @@ export default function TeamDetail() {
       // Fetch series data for video functionality
       const seriesResponse = await apiService.getSeries();
       setSeries(seriesResponse.data);
+      
+      // Fetch rankings data
+      const rankingsResponse = await apiService.getRankings();
+      setRankings(rankingsResponse.data.filter(r => r.team.name === teamName));
       
     } catch (err) {
       setError('Failed to fetch team data');
@@ -267,18 +272,25 @@ export default function TeamDetail() {
           
           <div className="p-6">
             <div className="h-80">
+              <p className="text-sm text-slate-400 mb-4">
+                This chart shows the team's performance across different series. The blue line represents total points scored, while the orange line shows ranking position (lower is better, with 1st place being the top position).
+              </p>
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart
                   data={[...new Set(matches.map(m => m.serie))].sort().map(serie => {
                     const serieMatches = matches.filter(m => m.serie === serie);
                     const totalPoints = serieMatches.reduce((sum, match) => sum + getTeamScore(match, teamName), 0);
                     
+                    // Find ranking for this serie
+                    const ranking = rankings.find(r => r.serie === serie);
+                    
                     return {
                       serie: `Serie ${serie}`,
                       points: totalPoints,
-                      matches: serieMatches.length
+                      matches: serieMatches.length,
+                      position: ranking ? ranking.position : null
                     };
-                  })}
+                  }).filter(item => item.position !== null)} // Filter out items without ranking data
                   margin={{
                     top: 20,
                     right: 30,
@@ -292,17 +304,43 @@ export default function TeamDetail() {
                     tick={{ fontSize: 12, fill: '#cbd5e1' }}
                   />
                   <YAxis 
+                    yAxisId="left"
                     label={{ value: 'Points', angle: -90, position: 'insideLeft', style: { textAnchor: 'middle', fill: '#cbd5e1' } }}
                     tick={{ fontSize: 12, fill: '#cbd5e1' }}
                   />
+                  <YAxis 
+                    yAxisId="right"
+                    orientation="right"
+                    label={{ value: 'Ranking', angle: 90, position: 'insideRight', style: { textAnchor: 'middle', fill: '#cbd5e1' } }}
+                    tick={{ fontSize: 12, fill: '#cbd5e1' }}
+                    domain={[1, 'dataMax']}
+                    reversed={true}
+                  />
                   <Tooltip 
-                    formatter={(value, name) => [value, 'Points']}
+                    formatter={(value, name) => {
+                      if (name === 'points') return [value, 'Points'];
+                      if (name === 'position') return [value, 'Ranking'];
+                      return [value, name];
+                    }}
                     labelFormatter={(label) => label}
                     contentStyle={{
                       backgroundColor: '#1e293b',
                       border: '1px solid #475569',
                       borderRadius: '6px',
                       color: '#e2e8f0'
+                    }}
+                  />
+                  <Legend 
+                    verticalAlign="top"
+                    height={36}
+                    formatter={(value) => {
+                      if (value === 'points') return 'Points Scored';
+                      if (value === 'position') return 'Ranking Position';
+                      return value;
+                    }}
+                    wrapperStyle={{
+                      paddingTop: '10px',
+                      color: '#cbd5e1'
                     }}
                   />
                   <Line 
@@ -312,6 +350,19 @@ export default function TeamDetail() {
                     strokeWidth={3}
                     dot={{ fill: '#60a5fa', strokeWidth: 2, r: 6 }}
                     activeDot={{ r: 8, stroke: '#60a5fa', strokeWidth: 2 }}
+                    yAxisId="left"
+                    name="points"
+                  />
+                  <Line 
+                    type="monotone"
+                    dataKey="position" 
+                    stroke="#f97316"
+                    strokeWidth={3}
+                    dot={{ fill: '#f97316', strokeWidth: 2, r: 6 }}
+                    activeDot={{ r: 8, stroke: '#f97316', strokeWidth: 2 }}
+                    yAxisId="right"
+                    name="position"
+                    connectNulls={true} // Connect points even if there are null values
                   />
                 </LineChart>
               </ResponsiveContainer>
