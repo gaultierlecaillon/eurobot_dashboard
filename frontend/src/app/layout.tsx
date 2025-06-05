@@ -32,6 +32,9 @@ export default function RootLayout({
         <main className="container mx-auto px-4 py-8">
           {children}
         </main>
+        <footer className="container mx-auto px-4 py-4 text-center text-slate-400 text-sm">
+          Vibe-coded with ❤️
+        </footer>
       </body>
     </html>
   );

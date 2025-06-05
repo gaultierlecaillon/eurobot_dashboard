@@ -14,6 +14,8 @@ export default function Matches() {
   const [selectedSerie, setSelectedSerie] = useState<number | null>(null);
   const [selectedMatch, setSelectedMatch] = useState<Match | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showHighestTotalMatch, setShowHighestTotalMatch] = useState(false);
+  const [showHighestScoreMatch, setShowHighestScoreMatch] = useState(false);
   const searchParams = useSearchParams();
 
   // Helper function to generate video URL with timecode
@@ -106,6 +108,114 @@ export default function Matches() {
         <p className="text-slate-400">Competition match results</p>
       </div>
 
+            {/* Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
+          <div className="flex items-center">
+            <div className="p-3 rounded-full bg-slate-700 text-slate-300">
+              <span className="text-2xl">🏆</span>
+            </div>
+            <div className="ml-4">
+              <p className="text-sm font-medium text-slate-400">Total Matches</p>
+              <p className="text-2xl font-semibold text-slate-100">{matches.length}</p>
+            </div>
+          </div>
+        </div>
+        
+        <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6 cursor-pointer hover:bg-slate-750 transition-colors duration-200"
+             onClick={() => {
+               setSearchTerm('');
+               setShowHighestTotalMatch(!showHighestTotalMatch);
+             }}>
+          <div className="flex items-center">
+            <div className="p-3 rounded-full bg-slate-700 text-slate-300">
+              <span className="text-2xl">🔥</span>
+            </div>
+            <div className="ml-4">
+              <p className="text-sm font-medium text-slate-400">Highest Total Score Match</p>
+              {matches.length > 0 ? (() => {
+                // Find match with highest combined score
+                const matchWithHighestTotal = [...matches].sort((a, b) => 
+                  (b.team1.score + b.team2.score) - (a.team1.score + a.team2.score)
+                )[0];
+                
+                const totalScore = matchWithHighestTotal.team1.score + matchWithHighestTotal.team2.score;
+                
+                return (
+                  <div>
+                    <p className="text-2xl font-semibold text-slate-100">
+                      {totalScore} <span className="text-sm text-slate-400">pts</span>
+                    </p>
+                    <p className="text-xs text-slate-400">
+                      Match #{matchWithHighestTotal.matchNumber} 
+                      <span className="ml-1 text-slate-500">
+                        (Click to {showHighestTotalMatch ? 'show all' : 'filter'})
+                      </span>
+                    </p>
+                  </div>
+                );
+              })() : <p className="text-2xl font-semibold text-slate-100">0</p>}
+            </div>
+          </div>
+        </div>
+        
+        <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6 cursor-pointer hover:bg-slate-750 transition-colors duration-200"
+             onClick={() => {
+               setSearchTerm('');
+               setShowHighestTotalMatch(false);
+               setShowHighestScoreMatch(!showHighestScoreMatch);
+             }}>
+          <div className="flex items-center">
+            <div className="p-3 rounded-full bg-slate-700 text-slate-300">
+              <span className="text-2xl">🥇</span>
+            </div>
+            <div className="ml-4">
+              <p className="text-sm font-medium text-slate-400">Highest Score</p>
+              {matches.length > 0 ? (() => {
+                const highestScore = Math.max(...matches.flatMap(m => [m.team1.score, m.team2.score]));
+                const teamWithHighestScore = matches.find(m => 
+                  m.team1.score === highestScore || m.team2.score === highestScore
+                );
+                
+                if (!teamWithHighestScore) return <p className="text-2xl font-semibold text-slate-100">{highestScore}</p>;
+                
+                const isTeam1 = teamWithHighestScore.team1.score === highestScore;
+                const teamName = isTeam1 ? teamWithHighestScore.team1.name : teamWithHighestScore.team2.name;
+                
+                return (
+                  <div>
+                    <p className="text-2xl font-semibold text-slate-100">{highestScore}</p>
+                    <div className="flex items-center text-xs text-slate-400">
+                      <span>{teamName}</span>
+                      <span className="mx-1">•</span>
+                      <span>Match #{teamWithHighestScore.matchNumber}</span>
+                      <span className="ml-1 text-slate-500">
+                        (Click to {showHighestScoreMatch ? 'show all' : 'filter'})
+                      </span>
+                    </div>
+                  </div>
+                );
+              })() : <p className="text-2xl font-semibold text-slate-100">0</p>}
+            </div>
+          </div>
+        </div>
+        
+        <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
+          <div className="flex items-center">
+            <div className="p-3 rounded-full bg-slate-700 text-slate-300">
+              <span className="text-2xl">📊</span>
+            </div>
+            <div className="ml-4">
+              <p className="text-sm font-medium text-slate-400">Average Score</p>
+              <p className="text-2xl font-semibold text-slate-100">
+                {matches.length > 0 ? 
+                  Math.round(matches.reduce((sum, m) => sum + m.team1.score + m.team2.score, 0) / (matches.length * 2)) : 0}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Filters */}
       <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
         <h3 className="text-lg font-semibold text-slate-100 mb-4">Filters</h3>
@@ -163,21 +273,42 @@ export default function Matches() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {(() => {
-            // Filter matches based on search term
-            const filteredMatches = matches.filter(match => {
-              const matchNumber = match.matchNumber.toString();
-              const team1Name = match.team1.name.toLowerCase();
-              const team2Name = match.team2.name.toLowerCase();
-              const team1Stand = match.team1.stand.toLowerCase();
-              const team2Stand = match.team2.stand.toLowerCase();
-              const search = searchTerm.toLowerCase();
+            // Filter matches based on search term and highest score filters
+            let filteredMatches = matches;
+            
+            if (showHighestTotalMatch && matches.length > 0) {
+              // Find match with highest combined score
+              const matchWithHighestTotal = [...matches].sort((a, b) => 
+                (b.team1.score + b.team2.score) - (a.team1.score + a.team2.score)
+              )[0];
               
-              return matchNumber.includes(search) || 
-                     team1Name.includes(search) || 
-                     team2Name.includes(search) ||
-                     team1Stand.includes(search) ||
-                     team2Stand.includes(search);
-            });
+              filteredMatches = matches.filter(match => 
+                match.matchNumber === matchWithHighestTotal.matchNumber && 
+                match.serie === matchWithHighestTotal.serie
+              );
+            } else if (showHighestScoreMatch && matches.length > 0) {
+              // Find match with highest individual score
+              const highestScore = Math.max(...matches.flatMap(m => [m.team1.score, m.team2.score]));
+              
+              filteredMatches = matches.filter(match => 
+                match.team1.score === highestScore || match.team2.score === highestScore
+              );
+            } else if (searchTerm) {
+              filteredMatches = matches.filter(match => {
+                const matchNumber = match.matchNumber.toString();
+                const team1Name = match.team1.name.toLowerCase();
+                const team2Name = match.team2.name.toLowerCase();
+                const team1Stand = match.team1.stand.toLowerCase();
+                const team2Stand = match.team2.stand.toLowerCase();
+                const search = searchTerm.toLowerCase();
+                
+                return matchNumber.includes(search) || 
+                       team1Name.includes(search) || 
+                       team2Name.includes(search) ||
+                       team1Stand.includes(search) ||
+                       team2Stand.includes(search);
+              });
+            }
             
             if (matches.length === 0) {
               return (
@@ -301,49 +432,6 @@ export default function Matches() {
           })()}
         </div>
       )}
-
-      {/* Statistics */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
-          <h4 className="text-lg font-semibold text-slate-100 mb-2">Total Matches</h4>
-          <p className="text-3xl font-bold text-slate-100">{matches.length}</p>
-        </div>
-        
-        <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
-          <h4 className="text-lg font-semibold text-slate-100 mb-2">Filtered</h4>
-          <p className="text-3xl font-bold text-slate-100">
-            {searchTerm ? matches.filter(match => {
-              const matchNumber = match.matchNumber.toString();
-              const team1Name = match.team1.name.toLowerCase();
-              const team2Name = match.team2.name.toLowerCase();
-              const team1Stand = match.team1.stand.toLowerCase();
-              const team2Stand = match.team2.stand.toLowerCase();
-              const search = searchTerm.toLowerCase();
-              
-              return matchNumber.includes(search) || 
-                     team1Name.includes(search) || 
-                     team2Name.includes(search) ||
-                     team1Stand.includes(search) ||
-                     team2Stand.includes(search);
-            }).length : matches.length}
-          </p>
-        </div>
-        
-        <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
-          <h4 className="text-lg font-semibold text-slate-100 mb-2">Highest Score</h4>
-          <p className="text-3xl font-bold text-slate-100">
-            {matches.length > 0 ? Math.max(...matches.flatMap(m => [m.team1.score, m.team2.score])) : 0}
-          </p>
-        </div>
-        
-        <div className="bg-slate-800 rounded-lg shadow-md border border-slate-700 p-6">
-          <h4 className="text-lg font-semibold text-slate-100 mb-2">Average Score</h4>
-          <p className="text-3xl font-bold text-slate-100">
-            {matches.length > 0 ? 
-              Math.round(matches.reduce((sum, m) => sum + m.team1.score + m.team2.score, 0) / (matches.length * 2)) : 0}
-          </p>
-        </div>
-      </div>
 
       {/* Video Modal */}
       {selectedMatch && (() => {
