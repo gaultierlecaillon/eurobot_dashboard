@@ -1,6 +1,6 @@
 # Eurobot Dashboard
 
-A comprehensive dashboard for tracking and visualizing Eurobot robotics competition data, including teams, matches, rankings, and series information.
+A dashboard for tracking and visualizing Eurobot robotics competition data, including teams, matches, rankings, and series information.
 
 ![Eurobot Dashboard](screenshot.png)
 

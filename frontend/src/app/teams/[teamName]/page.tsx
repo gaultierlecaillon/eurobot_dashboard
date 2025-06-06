@@ -138,8 +138,18 @@ export default function TeamDetail() {
             )}
           </div>
           <div className="text-right">
-            <div className="text-2xl font-bold text-slate-100">{matches.length}</div>
-            <div className="text-slate-400">Total Matches</div>
+            <div className="text-2xl font-bold text-slate-100">
+              {rankings.length > 0 ? 
+                (() => {
+                  const position = rankings.sort((a, b) => b.serie - a.serie)[0].position;
+                  const medal = position === 1 ? '🥇 ' : 
+                               position === 2 ? '🥈 ' : 
+                               position === 3 ? '🥉 ' : '';
+                  return `${medal}#${position}`;
+                })() : 
+                'N/A'}
+            </div>
+            <div className="text-slate-400">Last Ranking</div>
           </div>
         </div>
       </div>

@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { apiService, Team } from '@/lib/api';
+import { apiService, Team, Ranking } from '@/lib/api';
 
 export default function Teams() {
   const [teams, setTeams] = useState<Team[]>([]);
+  const [rankings, setRankings] = useState<Ranking[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -18,14 +19,25 @@ export default function Teams() {
   const fetchTeams = async () => {
     try {
       setLoading(true);
-      const response = await apiService.getTeams();
-      setTeams(response.data);
+      const teamsResponse = await apiService.getTeams();
+      const rankingsResponse = await apiService.getRankings();
+      setTeams(teamsResponse.data);
+      setRankings(rankingsResponse.data);
     } catch (err) {
       setError('Failed to fetch teams');
       console.error('Error fetching teams:', err);
     } finally {
       setLoading(false);
     }
+  };
+
+  // Helper function to get the last known ranking for a team
+  const getLastRanking = (teamName: string) => {
+    const teamRankings = rankings.filter(r => r.team.name === teamName);
+    if (teamRankings.length === 0) return null;
+    
+    // Sort by serie in descending order to get the most recent
+    return teamRankings.sort((a, b) => b.serie - a.serie)[0];
   };
 
   // Get unique origins for filter
@@ -37,6 +49,22 @@ export default function Teams() {
                          team.stand.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesOrigin = selectedOrigin === '' || team.origin === selectedOrigin;
     return matchesSearch && matchesOrigin;
+  }).sort((a, b) => {
+    // Sort by ranking (best to lowest)
+    const rankingA = getLastRanking(a.name);
+    const rankingB = getLastRanking(b.name);
+    
+    // If both have rankings, compare positions
+    if (rankingA && rankingB) {
+      return rankingA.position - rankingB.position;
+    }
+    
+    // Teams with rankings come before teams without rankings
+    if (rankingA) return -1;
+    if (rankingB) return 1;
+    
+    // If neither has a ranking, sort by name
+    return a.name.localeCompare(b.name);
   });
 
   if (loading) {
@@ -122,7 +150,16 @@ export default function Teams() {
                 <span className="text-2xl">🤖</span>
               </div>
               <div className="text-sm font-medium text-slate-300 bg-slate-700 px-2 py-1 rounded">
-                {team.stand}
+                {(() => {
+                  const ranking = getLastRanking(team.name);
+                  if (!ranking) return 'N/A';
+                  
+                  const position = ranking.position;
+                  const medal = position === 1 ? '🥇 ' : 
+                               position === 2 ? '🥈 ' : 
+                               position === 3 ? '🥉 ' : '';
+                  return `${medal}#${position}`;
+                })()}
               </div>
             </div>
             
