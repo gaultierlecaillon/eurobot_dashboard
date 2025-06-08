@@ -30,10 +30,7 @@ export default function TeamDetail() {
     return `${serie.liveStreamUrl}${separator}start=${match.timecode}`;
   };
 
-  useEffect(() => {
-    fetchTeamData();
-  }, [teamName]);
-
+  // Define fetchTeamData before using it in useEffect
   const fetchTeamData = async () => {
     try {
       setLoading(true);
@@ -62,6 +59,11 @@ export default function TeamDetail() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchTeamData();
+  }, [teamName]);
+
 
   const getMatchResult = (match: Match, teamName: string) => {
     const isTeam1 = match.team1.name === teamName;
@@ -282,8 +284,8 @@ export default function TeamDetail() {
           
           <div className="p-6">
             <div className="h-80">
-              <p className="text-sm text-slate-400 mb-4">
-                This chart shows the team's performance across different series. The blue line represents total points scored, while the orange line shows ranking position (lower is better, with 1st place being the top position).
+                <p className="text-sm text-slate-400 mb-4">
+                This chart shows the team&#39;s performance across different series. The blue line represents total points scored, while the orange line shows ranking position (lower is better, with 1st place being the top position).
               </p>
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart
